@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asistente Juridico IA V19 - Lic. Julian Rodriguez Becerril</title>
+<meta name="theme-color" content="#0d2540">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root{
+  --azul:#0d2540;--azul2:#1a3d66;--oro:#c8a84b;--oro2:#d4b560;
+  --bg:#f8f9fb;--bg2:#ffffff;--bg3:#f0f3f7;
+  --borde:#dde3ec;--texto:#1a2332;--texto2:#4a5568;--texto3:#718096;
+  --verde:#00b37e;--rojo:#e24b4a;--r:10px;
+  --sombra:0 2px 12px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--texto);min-height:100vh}
+.hdr{background:linear-gradient(135deg,#0d2540,#0a1e36);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+.hdr-inner{max-width:1100px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;background:var(--oro);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo i{font-size:24px;color:#0d2540}
+.hdr-txt h1{color:#fff;font-size:16px;font-weight:600}
+.hdr-txt p{color:#7aabe0;font-size:11px}
+.badge{background:#00b37e22;border:1px solid #00b37e66;color:#00b37e;font-size:10px;padding:2px 8px;border-radius:20px;margin-left:6px}
+.badge-oro{background:#c8a84b22;border:1px solid #c8a84b66;color:#c8a84b;font-size:10px;padding:2px 8px;border-radius:20px;margin-left:4px}
+.layout{max-width:1100px;margin:0 auto;padding:18px 20px;display:grid;grid-template-columns:220px 1fr;gap:16px}
+@media(max-width:700px){.layout{grid-template-columns:1fr;padding:10px}}
+.sidebar{position:sticky;top:80px;height:fit-content}
+.sidebar-card{background:var(--bg2);border:1px solid var(--borde);border-radius:var(--r);overflow:hidden;box-shadow:var(--sombra)}
+.sidebar-section{padding:8px 0}
+.sidebar-title{font-size:10px;font-weight:600;color:var(--texto3);text-transform:uppercase;letter-spacing:.8px;padding:6px 14px 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 14px;cursor:pointer;transition:all .14s;font-size:13px;color:var(--texto2);border-left:3px solid transparent}
+.nav-item:hover{background:var(--bg3);color:var(--azul)}
+.nav-item.active{background:#0d254010;color:var(--azul);border-left-color:var(--oro);font-weight:500}
+.nav-item i{font-size:16px;flex-shrink:0}
+.nav-sep{border:none;border-top:1px solid var(--borde);margin:4px 0}
+.tab-content{display:none}.tab-content.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--borde);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--sombra)}
+.card-title{font-size:14px;font-weight:600;color:var(--texto);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title i{color:var(--oro);font-size:18px}
+label{font-size:12px;color:var(--texto2);display:block;margin-bottom:3px;font-weight:500}
+input,select,textarea{width:100%;padding:8px 11px;border:1px solid var(--borde);border-radius:7px;font-size:13px;background:var(--bg2);color:var(--texto);font-family:'Segoe UI',system-ui,sans-serif;transition:border .14s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--azul);box-shadow:0 0 0 3px rgba(13,37,64,.07)}
+textarea{resize:vertical;line-height:1.5}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.gf{grid-column:1/-1}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr}}
+.btn{padding:9px 18px;border-radius:7px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:'Segoe UI',system-ui,sans-serif;transition:all .14s;display:inline-flex;align-items:center;gap:6px}
+.btn-p{background:var(--azul);color:#fff}.btn-p:hover{background:var(--azul2)}.btn-p:disabled{background:#aaa;cursor:not-allowed}
+.btn-g{background:var(--oro);color:var(--azul)}.btn-g:hover{background:var(--oro2)}
+.btn-o{background:transparent;border:1px solid var(--borde);color:var(--texto)}.btn-o:hover{background:var(--bg3)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.sb{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:7px;font-size:12px;margin-bottom:10px;line-height:1.5}
+.sb i{flex-shrink:0;margin-top:1px}
+.sb-i{background:#e6f1fb;color:#185fa5;border:1px solid #b5d4f4}
+.sb-s{background:#eaf3de;color:#2f6611;border:1px solid #c0dd97}
+.sb-e{background:#fcebeb;color:#a32d2d;border:1px solid #f7c1c1}
+.sb-w{background:#faeeda;color:#854f0b;border:1px solid #fac775}
+.spin{width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:sp .7s linear infinite;display:inline-block;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.outbox{background:var(--bg3);border:1px solid var(--borde);border-radius:8px;padding:14px;font-size:13px;line-height:1.8;color:var(--texto);white-space:pre-wrap;word-break:break-word;max-height:450px;overflow-y:auto;font-family:Georgia,serif}
+.outbox-sm{max-height:200px;font-size:12px}
+.rev-box{background:var(--bg2);border:1px solid var(--borde);border-radius:8px;padding:12px;margin-bottom:10px}
+.rev-hd{display:flex;align-items:center;gap:7px;margin-bottom:7px;font-size:13px;font-weight:600}
+.rev-bd{font-size:12px;color:var(--texto2);line-height:1.65;white-space:pre-wrap;word-break:break-word;max-height:220px;overflow-y:auto}
+.sep{border:none;border-top:1px solid var(--borde);margin:14px 0}
+.tip{font-size:11px;color:var(--texto3);padding:7px 10px;background:var(--bg3);border-radius:6px;margin-top:6px;line-height:1.5}
+.pipe{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--bg3);border-radius:8px;margin-bottom:12px;flex-wrap:wrap;border:1px solid var(--borde)}
+.pn{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;background:var(--bg2);border:1px solid var(--borde);font-size:11px;color:var(--texto3);white-space:nowrap}
+.pn.act{border-color:var(--oro);background:#c8a84b15;color:#856b1a;font-weight:500}
+.pn.ok{border-color:var(--verde);background:#00b37e10;color:#1a7a57;font-weight:500}
+.pn.er{border-color:var(--rojo);background:#e24b4a10;color:#a32d2d}
+.pa{color:var(--texto3);font-size:14px;font-weight:300}
+.dropzone{border:2px dashed var(--borde);border-radius:var(--r);padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3);position:relative}
+.dropzone:hover,.dropzone.drag{border-color:var(--oro);background:#c8a84b08}
+.dropzone.loaded{border-color:var(--verde);background:#00b37e08;border-style:solid}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dropzone i{font-size:40px;color:var(--texto3);display:block;margin-bottom:10px}
+.dropzone.loaded i{color:var(--verde)}
+.dropzone p{font-size:13px;color:var(--texto2);margin-bottom:4px;font-weight:500}
+.dropzone small{font-size:11px;color:var(--texto3)}
+.cat-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.ctb{padding:5px 11px;border-radius:20px;border:1px solid var(--borde);background:var(--bg2);color:var(--texto2);font-size:11px;cursor:pointer;transition:all .13s}
+.ctb.on,.ctb:hover{background:var(--azul);color:#fff;border-color:var(--azul)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:14px;max-height:340px;overflow-y:auto;padding-right:4px}
+.wcard{border:1px solid var(--borde);border-radius:8px;padding:10px 11px;cursor:pointer;transition:all .13s;background:var(--bg2)}
+.wcard:hover{border-color:var(--azul);background:#0d254008;transform:translateY(-1px)}
+.wcard.sel{border-color:var(--oro);background:#c8a84b0f;border-width:1.5px}
+.wcard i{font-size:20px;color:var(--azul);display:block;margin-bottom:4px}
+.wcard.sel i{color:var(--oro)}
+.wcard strong{font-size:12px;color:var(--texto);display:block;margin-bottom:2px;line-height:1.3}
+.wcard span{font-size:10px;color:var(--texto3);line-height:1.3;display:block}
+.msel{display:flex;gap:5px;flex-wrap:wrap}
+.mbtn{padding:5px 11px;border-radius:20px;border:1px solid var(--borde);background:var(--bg2);color:var(--texto2);font-size:11px;cursor:pointer;transition:all .13s}
+.mbtn.on{background:var(--azul);color:#fff;border-color:var(--azul)}
+.apk-row{display:flex;gap:8px;align-items:flex-end;margin-bottom:12px}
+.apk-row>div{flex:1}
+.learn-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:15px;background:#c8a84b12;border:1px solid #c8a84b44;color:#7a5e1a;font-size:11px;margin:3px}
+.doc-preview{background:var(--bg3);border:1px solid var(--borde);border-radius:7px;padding:10px 12px;margin-top:10px;font-size:11px;color:var(--texto2);max-height:130px;overflow-y:auto;white-space:pre-wrap;font-family:'Courier New',monospace;line-height:1.5}
+.calc-result{background:var(--bg3);border:1px solid var(--borde);border-radius:8px;padding:13px;margin-top:12px;font-size:13px;white-space:pre-wrap;font-family:'Courier New',monospace;line-height:1.7;color:var(--texto)}
+.hist-item{background:var(--bg2);border:1px solid var(--borde);border-radius:8px;padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:all .13s}
+.hist-item:hover{border-color:var(--azul);background:var(--bg3)}
+.hist-item-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.hist-item-hd strong{font-size:12px;color:var(--texto)}
+.hist-item-hd span{font-size:10px;color:var(--texto3)}
+.hist-item p{font-size:11px;color:var(--texto2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.apikey-info{background:#e6f1fb;border:1px solid #b5d4f4;border-radius:7px;padding:10px 13px;font-size:12px;color:#185fa5;margin-bottom:12px}
+.apikey-info a{color:#185fa5;font-weight:600}
+.footer{text-align:center;padding:20px;font-size:11px;color:var(--texto3);border-top:1px solid var(--borde);margin-top:10px}
+.leyes-caja{background:#fffae6;border-left:4px solid var(--oro);padding:12px;margin:12px 0;font-size:12px}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="logo"><i class="ti ti-scale"></i></div>
+    <div class="hdr-txt">
+      <h1>Asistente Juridico IA <span class="badge">Groq API</span><span class="badge-oro">V19</span></h1>
+      <p>Lic. Julian Rodriguez Becerril &middot; Metepec, Estado de Mexico &middot; Legislacion mexicana vigente 2025 &middot; Analiza PDF y Word</p>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="sidebar-card">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Principal</div>
+      <div class="nav-item active" onclick="showTab('analizar',this)"><i class="ti ti-file-search"></i> Analizar Documento</div>
+      <div class="nav-item" onclick="showTab('elaborar',this)"><i class="ti ti-file-text"></i> Elaborar Escrito</div>
+    </div>
+    <hr class="nav-sep">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Herramientas</div>
+      <div class="nav-item" onclick="showTab('revisar',this)"><i class="ti ti-checklist"></i> Revisar Documento</div>
+      <div class="nav-item" onclick="showTab('calcular',this)"><i class="ti ti-calculator"></i> Calculadoras</div>
+      <div class="nav-item" onclick="showTab('historial',this)"><i class="ti ti-history"></i> Historial</div>
+    </div>
+    <hr class="nav-sep">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Configuracion</div>
+      <div class="nav-item" onclick="showTab('estilo',this)"><i class="ti ti-brain"></i> Mi Estilo / IA</div>
+      <div class="nav-item" onclick="showTab('config',this)"><i class="ti ti-settings"></i> API y Modelo</div>
+    </div>
+  </div>
+</aside>
+<main>
+
+<!-- ANALIZAR -->
+<div id="tab-analizar" class="tab-content active">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-upload"></i> Cargar documento para analisis y respuesta automatica</div>
+    <div class="sb sb-i"><i class="ti ti-info-circle"></i> Sube una demanda, resolucion, contrato o cualquier escrito en PDF o Word. La IA lo analiza como abogado y genera la respuesta juridica completa lista para presentar.</div>
+    <div class="dropzone" id="dz" ondragover="dzDrag(event,true)" ondragleave="dzDrag(event,false)" ondrop="dzDrop(event)">
+      <input type="file" id="fileInput" accept=".pdf,.docx,.doc,.txt,.rtf" onchange="fileLoad(this.files[0])">
+      <i class="ti ti-file-upload" id="dzIco"></i>
+      <p id="dzTxt">Arrastra aqui tu PDF o Word, o haz clic para seleccionar</p>
+      <small id="dzSub">Formatos: PDF &middot; DOCX &middot; DOC &middot; TXT &mdash; hasta 15 MB</small>
+    </div>
+    <div id="docPreviewWrap" style="display:none"><div class="doc-preview" id="docPreview"></div></div>
+    <div class="sep"></div>
+    <div class="g2">
+      <div><label>Tipo de respuesta a generar</label>
+        <select id="tipoRespuesta">
+          <option value="contestacion">Contestacion de demanda completa</option>
+          <option value="excepciones">Excepciones procesales</option>
+          <option value="reconvencion">Reconvencion (demanda vs. actor)</option>
+          <option value="amparo">Juicio de Amparo Indirecto</option>
+          <option value="apelacion">Recurso de Apelacion</option>
+          <option value="revocacion">Recurso de Revocacion</option>
+          <option value="informe">Informe Justificado</option>
+          <option value="estrategia">Solo estrategia de defensa</option>
+          <option value="resumen">Solo resumen ejecutivo</option>
+        </select></div>
+      <div><label>Nombre del cliente (defendido)</label><input id="dc_cli" placeholder="Juan Perez Martinez"></div>
+      <div><label>Materia del juicio</label>
+        <select id="dc_mat"><option>Civil</option><option>Mercantil</option><option>Laboral (LFT)</option><option>Familiar</option><option>Penal</option><option>Amparo</option><option>Fiscal</option><option>Administrativo</option></select></div>
+      <div><label>Estado / Entidad federativa</label>
+        <select id="dc_est"><option>Estado de Mexico</option><option>Ciudad de Mexico</option><option>Jalisco</option><option>Nuevo Leon</option><option>Puebla</option><option>Veracruz</option><option>Federal</option></select></div>
+      <div class="gf"><label>Instrucciones adicionales de defensa (opcional)</label>
+        <input id="dc_ins" placeholder="Oponer prescripcion, negar todos los hechos, incluir reconvencion por danos y perjuicios..."></div>
+    </div>
+    <div class="pipe">
+      <div class="pn" id="da1"><i class="ti ti-scan"></i> Extractor</div><div class="pa">&rarr;</div>
+      <div class="pn" id="da2"><i class="ti ti-brain"></i> Analista</div><div class="pa">&rarr;</div>
+      <div class="pn" id="da3"><i class="ti ti-shield-check"></i> Estratega</div><div class="pa">&rarr;</div>
+      <div class="pn" id="da4"><i class="ti ti-pencil"></i> Redactor</div><div class="pa">&rarr;</div>
+      <div class="pn" id="da5"><i class="ti ti-certificate"></i> Validador Final</div>
+    </div>
+    <div class="row">
+      <button class="btn btn-p" id="btnAnalizar" onclick="analizarDoc()"><i class="ti ti-wand"></i> Analizar y Generar Respuesta</button>
+      <button class="btn btn-o btn-sm" onclick="usarModeloRapido()" title="Usa Llama 3.1 8B con mayor limite de tokens/min"><i class="ti ti-bolt"></i> Usar modelo rapido</button>
+      <button class="btn btn-o" onclick="limpiarDoc()"><i class="ti ti-trash"></i> Limpiar</button>
+    </div>
+  </div>
+  <div class="card" id="resDocCard" style="display:none">
+    <div class="card-title"><i class="ti ti-file-description"></i> Resultado del analisis</div>
+    <div id="stDoc"></div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:600;color:var(--texto2);margin-bottom:6px">Analisis del documento recibido (Agente 1 + 2)</div>
+      <div class="outbox outbox-sm" id="oDoc1">Esperando...</div>
+    </div>
+    <div id="docRevSec" style="display:none">
+      <div class="rev-box">
+        <div class="rev-hd"><i class="ti ti-shield-check" style="color:var(--oro)"></i> Estrategia de defensa (Agente 3)</div>
+        <div class="rev-bd" id="oDoc2">-</div>
+      </div>
+      <div class="rev-box">
+        <div class="rev-hd"><i class="ti ti-eye-check" style="color:var(--azul)"></i> Revision legal del borrador (Agente 4)</div>
+        <div class="rev-bd" id="oDoc3rev">-</div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:var(--texto2);margin-bottom:6px">Documento final validado con tu estilo (Agente 5) - Listo para presentar</div>
+      <div class="outbox" id="oDoc3">-</div>
+    </div>
+    <div class="row" id="expDocRow" style="display:none">
+      <button class="btn btn-g" onclick="expWordDoc()"><i class="ti ti-file-word"></i> Descargar Word (.docx) Hoja Oficio</button>
+      <button class="btn btn-o" onclick="copiarDoc()"><i class="ti ti-copy"></i> Copiar texto</button>
+      <button class="btn btn-o" onclick="guardarHist('doc')"><i class="ti ti-bookmark"></i> Guardar en historial</button>
+      <button class="btn btn-o btn-sm" onclick="limpiarDoc()"><i class="ti ti-plus"></i> Nuevo analisis</button>
+    </div>
+  </div>
+</div>
+
+<!-- ELABORAR -->
+<div id="tab-elaborar" class="tab-content">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-layout-grid"></i> Selecciona el tipo de escrito (+48 tipos)</div>
+    <div class="cat-tabs" id="catTabs">
+      <button class="ctb on" data-cat="todos" onclick="filtra(this)">Todos</button>
+      <button class="ctb" data-cat="principales" onclick="filtra(this)">Principales</button>
+      <button class="ctb" data-cat="promociones" onclick="filtra(this)">Promociones</button>
+      <button class="ctb" data-cat="probatorio" onclick="filtra(this)">Probatorio</button>
+      <button class="ctb" data-cat="recursos" onclick="filtra(this)">Recursos</button>
+      <button class="ctb" data-cat="cautelar" onclick="filtra(this)">Cautelares</button>
+      <button class="ctb" data-cat="laboral" onclick="filtra(this)">Laboral</button>
+      <button class="ctb" data-cat="amparo" onclick="filtra(this)">Amparo</button>
+      <button class="ctb" data-cat="familiar" onclick="filtra(this)">Familiar</button>
+      <button class="ctb" data-cat="mercantil" onclick="filtra(this)">Mercantil</button>
+    </div>
+    <div class="wgrid" id="wGrid"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-forms"></i> Datos del escrito &mdash; <span id="tipoLbl" style="color:var(--oro)">Selecciona un tipo arriba</span></div>
+    <div class="g2">
+      <div><label>Juzgado / Tribunal / Autoridad</label><input id="f_juz" placeholder="Juzgado 1 Civil Toluca, Estado de Mexico"></div>
+      <div><label>Numero de expediente</label><input id="f_exp" placeholder="123/2025"></div>
+      <div><label>Cliente / Promovente</label><input id="f_cli" placeholder="Juan Perez Martinez"></div>
+      <div><label>Parte contraria</label><input id="f_con" placeholder="Empresa XYZ S.A. de C.V."></div>
+      <div><label>Materia</label>
+        <select id="f_mat"><option>Civil</option><option>Mercantil</option><option>Laboral (LFT)</option><option>Familiar</option><option>Penal</option><option>Amparo</option><option>Fiscal</option><option>Corporativo</option><option>Administrativo</option></select></div>
+      <div><label>Estado</label>
+        <select id="f_est"><option>Estado de Mexico</option><option>Ciudad de Mexico</option><option>Jalisco</option><option>Nuevo Leon</option><option>Puebla</option><option>Veracruz</option><option>Guanajuato</option><option>Federal</option></select></div>
+      <div class="gf"><label>Hechos, antecedentes y contexto del caso</label>
+        <textarea id="f_hec" rows="5" placeholder="Narra cronologicamente: fechas clave, contratos, incumplimientos, montos, actuaciones previas del juicio..."></textarea></div>
+      <div class="gf"><label>Peticion concreta al juzgado</label>
+        <textarea id="f_pet" rows="3" placeholder="Que solicitas especificamente al tribunal: apertura de periodo probatorio, admision de prueba, condena, declaracion..."></textarea></div>
+      <div><label>Pruebas ofrecidas (si aplica)</label><input id="f_pru" placeholder="Documental publica, testimonial, pericial contable..."></div>
+      <div><label>Audiencia / Actuacion relacionada</label><input id="f_aud" placeholder="Audiencia de 15 de mayo de 2025"></div>
+      <div><label>Abogado firmante</label><input id="f_abo" placeholder="Lic. Julian Rodriguez Becerril"></div>
+      <div><label>Cedula profesional</label><input id="f_ced" placeholder="12345678"></div>
+      <div class="gf"><label>Instrucciones adicionales (articulos especificos, jurisprudencia, tono...)</label>
+        <input id="f_ins" placeholder="Citar Art. 1054 CCo, incluir tesis SCJN, solicitar medida cautelar..."></div>
+    </div>
+    <div class="sep"></div>
+    <div style="font-size:12px;font-weight:600;color:var(--texto2);margin-bottom:8px">Pipeline de agentes IA</div>
+    <div class="pipe">
+      <div class="pn" id="ag1"><i class="ti ti-pencil"></i> Redactor</div><div class="pa">&rarr;</div>
+      <div class="pn" id="ag2"><i class="ti ti-eye-check"></i> Revisor Legal</div><div class="pa">&rarr;</div>
+      <div class="pn" id="ag3"><i class="ti ti-user-check"></i> Validador Estilo</div><div class="pa">&rarr;</div>
+      <div class="pn" id="ag4"><i class="ti ti-certificate"></i> Doc Final</div>
+    </div>
+    <div class="tip">El Agente 3 aplica tu estilo personal guardado en "Mi Estilo". A mas ejemplos reales de tus escritos, mejores resultados.</div>
+    <div class="row">
+      <button class="btn btn-p" id="btnGen" onclick="generar()"><i class="ti ti-wand"></i> Generar Escrito con IA</button>
+      <button class="btn btn-o" onclick="limpiarF()"><i class="ti ti-eraser"></i> Limpiar campos</button>
+    </div>
+  </div>
+  <div class="card" id="resCard" style="display:none">
+    <div class="card-title"><i class="ti ti-file-description"></i> Resultado del escrito</div>
+    <div id="stMsg"></div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:600;color:var(--texto2);margin-bottom:6px">Borrador inicial</div>
+      <div class="outbox outbox-sm" id="o1">-</div>
+    </div>
+    <div id="revSec" style="display:none">
+      <div class="rev-box">
+        <div class="rev-hd"><i class="ti ti-eye-check" style="color:var(--oro)"></i> Revision legal (articulos, forma procesal)</div>
+        <div class="rev-bd" id="o2">-</div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:var(--texto2);margin-bottom:6px">Documento final validado con tu estilo</div>
+      <div class="outbox" id="o3">-</div>
+    </div>
+    <div class="row" id="expRow" style="display:none">
+      <button class="btn btn-g" onclick="expWord()"><i class="ti ti-file-word"></i> Descargar Word (.docx) Hoja Oficio</button>
+      <button class="btn btn-o" onclick="copiar()"><i class="ti ti-copy"></i> Copiar</button>
+      <button class="btn btn-o" onclick="guardarHist('escrito')"><i class="ti ti-bookmark"></i> Guardar en historial</button>
+      <button class="btn btn-o btn-sm" onclick="nuevoE()"><i class="ti ti-plus"></i> Nuevo escrito</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVISAR -->
+<div id="tab-revisar" class="tab-content">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-checklist"></i> Revisar escrito existente</div>
+    <div class="sb sb-i"><i class="ti ti-info-circle"></i> Pega cualquier escrito juridico. La IA detecta errores de articulos, forma procesal, inconsistencias y debilidades argumentativas.</div>
+    <textarea id="rev_txt" rows="12" placeholder="Pega aqui el texto completo del escrito a revisar..."></textarea>
+    <div class="g2" style="margin-top:10px">
+      <div><label>Materia</label><select id="rev_mat"><option>Civil</option><option>Mercantil</option><option>Laboral</option><option>Familiar</option><option>Penal</option><option>Amparo</option><option>Fiscal</option></select></div>
+      <div><label>Estado</label><select id="rev_est"><option>Estado de Mexico</option><option>Ciudad de Mexico</option><option>Jalisco</option><option>Federal</option></select></div>
+    </div>
+    <div class="row"><button class="btn btn-p" onclick="revisar()"><i class="ti ti-search"></i> Revisar con IA</button></div>
+    <div id="revRes" style="display:none;margin-top:14px">
+      <div id="revSt"></div>
+      <div class="rev-box" style="margin-top:10px">
+        <div class="rev-hd"><i class="ti ti-eye-check" style="color:var(--oro)"></i> Revision juridica completa</div>
+        <div class="rev-bd" id="revOut">-</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALCULADORAS -->
+<div id="tab-calcular" class="tab-content">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-calculator"></i> Calculadoras Juridicas</div>
+<div class="cat-tabs" style="margin-bottom:14px">
+  <button class="ctb on" onclick="showCalc('lft',this)">Liquidacion LFT</button>
+  <button class="ctb" onclick="showCalc('plazo',this)">Plazos Procesales</button>
+  <button class="ctb" onclick="showCalc('int',this)">Intereses Legales</button>
+  <button class="ctb" onclick="showCalc('pen',this)">Terminos Penales</button>
+  <button class="ctb" onclick="showCalc('pens',this)">Pension Alimenticia</button>
+  <button class="ctb" onclick="showCalc('presc',this)">Prescripción</button>
+  <button class="ctb" onclick="showCalc('danos',this)">Daños y Perjuicios</button>
+  <button class="ctb" onclick="showCalc('costas',this)">Costas y Honorarios</button>
+</div>
+    <div id="c-lft">
+      <div class="g3">
+        <div><label>Salario Diario Integrado (SDI)</label><input type="number" id="l_sdi" placeholder="500.00" step="0.01"></div>
+        <div><label>Anios de servicio</label><input type="number" id="l_yr" placeholder="5" min="0" step="0.5"></div>
+        <div><label>Dias de aguinaldo (Art. 87)</label><input type="number" id="l_agu" value="15" min="15"></div>
+        <div><label>Causa de separacion</label>
+          <select id="l_cau">
+            <option value="inj">Despido injustificado (Arts. 48, 50)</option>
+            <option value="ren">Renuncia voluntaria (Art. 162)</option>
+            <option value="mut">Mutuo acuerdo</option>
+            <option value="ret">Retiro voluntario (15+ anios)</option>
+          </select></div>
+        <div><label>Prima vacacional (Art. 80)</label>
+          <select id="l_pv"><option value="25">25% minimo legal</option><option value="0">No aplica</option></select></div>
+        <div><label>Horas extra diarias</label><input type="number" id="l_he" value="0" step="0.5" min="0"></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcLFT()"><i class="ti ti-calculator"></i> Calcular liquidacion</button>
+      <div id="lRes" style="display:none;margin-top:12px"><div class="calc-result" id="lOut"></div></div>
+    </div>
+    <div id="c-plazo" style="display:none">
+      <div class="g2">
+        <div><label>Fecha de notificacion</label><input type="date" id="p_ini"></div>
+        <div><label>Tipo de plazo</label>
+          <select id="p_tip" onchange="ajD()">
+            <option value="9">Contestacion demanda civil (9 dias habiles CPCM)</option>
+            <option value="15">Recurso de Apelacion (15 dias habiles)</option>
+            <option value="8">Amparo Indirecto (8 dias habiles Art. 17 LA)</option>
+            <option value="15a">Amparo Directo (15 dias habiles Art. 17 LA)</option>
+            <option value="5">Revocacion / Reposicion (5 dias habiles)</option>
+            <option value="3">Recurso de queja (3 dias)</option>
+            <option value="10">Termino ordinario (10 dias habiles)</option>
+            <option value="30">Periodo probatorio civil (30 dias naturales)</option>
+            <option value="15l">Contestacion laboral (15 dias)</option>
+            <option value="20m">Juicio oral mercantil (20 dias habiles)</option>
+            <option value="c">Personalizado</option>
+          </select></div>
+        <div><label>Dias (personalizado)</label><input type="number" id="p_d" value="9" min="1"></div>
+        <div><label>Tipo de dias</label>
+          <select id="p_td"><option value="h">Habiles (excluye sab, dom y festivos)</option><option value="n">Naturales</option></select></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcP()"><i class="ti ti-calendar"></i> Calcular vencimiento</button>
+      <div id="pRes" style="display:none;margin-top:12px"><div class="calc-result" id="pOut"></div></div>
+    </div>
+    <div id="c-int" style="display:none">
+      <div class="g2">
+        <div><label>Capital principal (MXN)</label><input type="number" id="i_c" placeholder="100000.00" step="0.01"></div>
+        <div><label>Tasa anual (%)</label><input type="number" id="i_t" value="9" step="0.01"></div>
+        <div><label>Fecha inicio del computo</label><input type="date" id="i_i"></div>
+        <div><label>Fecha de corte</label><input type="date" id="i_f"></div>
+        <div><label>Tipo de interes</label><select id="i_tipo"><option value="simple">Simple</option><option value="compuesto">Compuesto</option></select></div>
+        <div><label>Fundamento legal</label>
+          <select id="i_fund">
+            <option>Art. 2395 Codigo Civil Federal (civil legal)</option>
+            <option>Art. 362 Codigo de Comercio (mercantil 6% anual)</option>
+            <option>Tasa pactada en contrato</option>
+            <option>Art. 48 LFT (laboral)</option>
+          </select></div>
+      </div>
+      <div class="tip" style="margin-top:8px">Tasa legal vigente BANXICO 2025: aprox. 9% anual (civil). Art. 362 CCo: 6% anual (mercantil).</div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcI()"><i class="ti ti-percentage"></i> Calcular intereses</button>
+      <div id="iRes" style="display:none;margin-top:12px"><div class="calc-result" id="iOut"></div></div>
+    </div>
+    <div id="c-pen" style="display:none">
+      <div class="g2">
+        <div><label>Fecha y hora de detencion</label><input type="datetime-local" id="pe_i"></div>
+        <div><label>Termino aplicable</label>
+          <select id="pe_t">
+            <option value="48">48 horas - Detencion (Art. 16 CPEUM)</option>
+            <option value="96">96 horas - Delincuencia organizada (Art. 16 CPEUM)</option>
+            <option value="72">72 horas - Vinculacion a proceso (Art. 19 CPEUM)</option>
+          </select></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcPen()"><i class="ti ti-clock"></i> Calcular vencimiento</button>
+      <div id="penRes" style="display:none;margin-top:12px"><div class="calc-result" id="penOut"></div></div>
+    </div>
+    <div id="c-pens" style="display:none">
+      <div class="sb sb-i" style="margin-bottom:12px"><i class="ti ti-info-circle"></i> Referencia orientativa conforme al Codigo Civil del Estado de Mexico y criterios SCJN.</div>
+      <div class="g2">
+        <div><label>Ingresos netos del deudor (MXN/mes)</label><input type="number" id="ps_ing" placeholder="15000" step="100"></div>
+        <div><label>Numero de hijos acreedores</label><input type="number" id="ps_hijos" placeholder="2" min="1" max="10"></div>
+        <div><label>Edades de los hijos</label><input id="ps_edades" placeholder="5, 8, 12 anios"></div>
+        <div><label>Hay conyuge acreedor?</label><select id="ps_cony"><option value="no">No</option><option value="si">Si</option></select></div>
+        <div><label>Porcentaje propuesto (%)</label><input type="number" id="ps_pct" value="30" min="5" max="70" step="5"></div>
+        <div><label>Estado</label><select id="ps_est"><option>Estado de Mexico</option><option>Ciudad de Mexico</option><option>Federal</option></select></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcPens()"><i class="ti ti-heart"></i> Calcular</button>
+      <div id="pensRes" style="display:none;margin-top:12px"><div class="calc-result" id="pensOut"></div></div>
+    </div>
+    <div id="c-presc" style="display:none">
+      <div class="sb sb-i" style="margin-bottom:12px"><i class="ti ti-info-circle"></i> Cálculo orientativo según Código Civil Federal y códigos locales. Verificar legislación aplicable por estado.</div>
+      <div class="g2">
+        <div><label>Tipo de prescripción</label>
+          <select id="pr_tipo">
+            <option value="adq_civil">Adquisitiva ordinaria (10 años) - Art. 1141 CCFed</option>
+            <option value="adq_civil_b">Adquisitiva extraordinaria (20 años) - Art. 1142 CCFed</option>
+            <option value="ext_civil">Extintiva civil (10 años) - Art. 1136 CCFed</option>
+            <option value="ext_merc">Extintiva mercantil (10 años) - Art. 1159 CCo</option>
+            <option value="ext_lab">Extintiva laboral (1 año) - Art. 516 LFT</option>
+            <option value="ext_fam_alim">Extintiva alimentos (5 años) - Art. 1793 CCFed</option>
+            <option value="ext_fam_dano">Extintiva daños (5 años) - Art. 1913 CCFed</option>
+          </select></div>
+        <div><label>Fecha de inicio del plazo</label><input type="date" id="pr_ini"></div>
+        <div><label>Fecha de corte / demanda</label><input type="date" id="pr_fin"></div>
+        <div><label>¿Hubo interrupción? (Art. 1155 CCFed)</label>
+          <select id="pr_int"><option value="no">No</option><option value="si">Sí (reinicia plazo)</option></select></div>
+        <div><label>Fecha de interrupción (si aplica)</label><input type="date" id="pr_int_f"></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcPrescripcion()"><i class="ti ti-calculator"></i> Calcular prescripción</button>
+      <div id="prRes" style="display:none;margin-top:12px"><div class="calc-result" id="prOut"></div></div>
+    </div>
+    <div id="c-danos" style="display:none">
+      <div class="sb sb-i" style="margin-bottom:12px"><i class="ti ti-info-circle"></i> Cálculo referencial de daños y perjuicios. El juez fija el monto según proporcionalidad (Art. 2121 CCFed).</div>
+      <div class="g3">
+        <div><label>Daño emergente (pérdida real)</label><input type="number" id="dn_em" placeholder="0" step="0.01" min="0"></div>
+        <div><label>Lucro cesante (ganancia frustrada)</label><input type="number" id="dn_lc" placeholder="0" step="0.01" min="0"></div>
+        <div><label>Daño moral (Art. 1916 CCFed)</label><input type="number" id="dn_mo" placeholder="0" step="0.01" min="0"></div>
+        <div><label>Daño punitivo / ejemplarizante</label><input type="number" id="dn_pu" placeholder="0" step="0.01" min="0"></div>
+        <div><label>Gastos legales y periciales</label><input type="number" id="dn_ga" placeholder="0" step="0.01" min="0"></div>
+        <div><label>Intereses (desde hechos a sentencia)</label><input type="number" id="dn_in" placeholder="0" step="0.01" min="0"></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcDanos()"><i class="ti ti-calculator"></i> Calcular daños</button>
+      <div id="dnRes" style="display:none;margin-top:12px"><div class="calc-result" id="dnOut"></div></div>
+    </div>
+    <div id="c-costas" style="display:none">
+      <div class="sb sb-i" style="margin-bottom:12px"><i class="ti ti-info-circle"></i> Referencia según Art. 1107-1109 CPCM Edo. Méx. y baremos colegios de abogados. El juez fija discrecionalmente.</div>
+      <div class="g3">
+        <div><label>Cuantía del proceso (MXN)</label><input type="number" id="cs_cuan" placeholder="100000" step="100" min="0"></div>
+        <div><label>Tipo de juicio</label>
+          <select id="cs_tip">
+            <option value="ord">Ordinario</option>
+            <option value="ejec">Ejecutivo</option>
+            <option value="amparo">Amparo</option>
+            <option value="lab">Laboral</option>
+            <option value="fam">Familiar</option>
+            <option value="merc">Mercantil</option>
+          </select></div>
+        <div><label>Instancia</label>
+          <select id="cs_ins">
+            <option value="1">Primera</option>
+            <option value="2">Apelación</option>
+            <option value="am">Amparo directo</option>
+          </select></div>
+        <div><label>% Honorarios min (baremo)</label><input type="number" id="cs_min" value="10" step="1" min="5" max="30"></div>
+        <div><label>% Honorarios max (baremo)</label><input type="number" id="cs_max" value="20" step="1" min="10" max="40"></div>
+        <div><label>Costas procesales estimadas</label><input type="number" id="cs_proc" placeholder="5000" step="100" min="0"></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="calcCostas()"><i class="ti ti-calculator"></i> Calcular costas</button>
+      <div id="csRes" style="display:none;margin-top:12px"><div class="calc-result" id="csOut"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORIAL -->
+<div id="tab-historial" class="tab-content">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-history"></i> Historial de documentos generados</div>
+    <div class="row" style="margin-bottom:12px;margin-top:0">
+      <button class="btn btn-o btn-sm" onclick="renderHist()"><i class="ti ti-refresh"></i> Actualizar</button>
+      <button class="btn btn-o btn-sm" onclick="limpiarHist()"><i class="ti ti-trash"></i> Limpiar historial</button>
+    </div>
+    <div id="histList"><div class="sb sb-i"><i class="ti ti-info-circle"></i> Los documentos que guardes apareceran aqui.</div></div>
+  </div>
+  <div class="card" id="histDetCard" style="display:none">
+    <div class="card-title"><i class="ti ti-file-description"></i> Documento seleccionado</div>
+    <div class="outbox" id="histDetTxt">-</div>
+    <div class="row">
+      <button class="btn btn-g" onclick="expWordHist()"><i class="ti ti-file-word"></i> Descargar Word</button>
+      <button class="btn btn-o" onclick="copiarHist()"><i class="ti ti-copy"></i> Copiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MI ESTILO -->
+<div id="tab-estilo" class="tab-content">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-brain"></i> Mi Estilo - Aprendizaje personalizado de la IA</div>
+    <div class="sb sb-i"><i class="ti ti-info-circle"></i> Entre mas ejemplos reales agregues, la IA replicara tu vocabulario, estructura y tono exactos en todos los escritos.</div>
+    <div class="g2">
+      <div><label>Nombre completo del abogado</label><input id="st_abo" placeholder="Lic. Julian Rodriguez Becerril"></div>
+      <div><label>Cedula profesional</label><input id="st_ced" placeholder="12345678"></div>
+      <div><label>Nombre del despacho</label><input id="st_buf" placeholder="Bufete Juridico Rodriguez Becerril"></div>
+      <div><label>Domicilio del despacho</label><input id="st_dom" placeholder="Metepec, Estado de Mexico"></div>
+      <div><label>Telefono</label><input id="st_tel" placeholder="(722) 123 4567"></div>
+      <div><label>Correo electronico</label><input id="st_email" placeholder="juridico@despacho.com.mx"></div>
+      <div><label>Formula de inicio preferida</label><input id="st_ini" placeholder="Ante Ud. con el debido respeto comparezco y expongo:"></div>
+      <div><label>Formula de cierre / petitorio</label><input id="st_fin" placeholder="Por lo expuesto y fundado, a Ud. atentamente solicito:"></div>
+      <div><label>Frase protocolar final</label><input id="st_pet" placeholder="PROTESTO LO NECESARIO - A T E N T A M E N T E"></div>
+      <div><label>Tratamiento al juzgado</label>
+        <select id="st_trat"><option>C. Juez</option><option>H. Juzgado</option><option>C. Magistrado</option><option>H. Tribunal</option><option>C. Director</option></select></div>
+      <div class="gf"><label>Giros y frases propias frecuentes</label>
+        <textarea id="st_giros" rows="3" placeholder="'sin que obste a lo anterior...', 'toda vez que...', 'de conformidad con...', 'resulta procedente...', 'lo que asi solicito con fundamento en...'"></textarea></div>
+      <div><label>Estilo general</label>
+        <select id="st_estilo">
+          <option value="formal_clasico">Formal clasico (muy tecnico, conservador)</option>
+          <option value="formal_moderno">Formal moderno (tecnico y fluido)</option>
+          <option value="conciso">Conciso y directo</option>
+        </select></div>
+      <div><label>Fuentes de estilo adicionales</label>
+        <input id="st_ref" placeholder="Formularios de Pallares, estructura TJCA Edo. Mex., jurisprudencia SCJN..."></div>
+      <div class="gf"><label>Ejemplo de tu escrito 1 (pega fragmento real)</label>
+        <textarea id="st_ej1" rows="5" placeholder="Pega aqui un fragmento real de uno de tus escritos (proemio, argumentacion, petitorio...)"></textarea></div>
+      <div class="gf"><label>Ejemplo de tu escrito 2 (opcional)</label>
+        <textarea id="st_ej2" rows="4" placeholder="Otro fragmento real de un escrito diferente..."></textarea></div>
+      <div class="gf"><label>Ejemplo de tu escrito 3 - promocion sencilla (opcional)</label>
+        <textarea id="st_ej3" rows="4" placeholder="Fragmento de una promocion sencilla (apertura de periodo probatorio, vista, etc.)..."></textarea></div>
+    </div>
+    <div class="sep"></div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--texto);margin-bottom:8px">Fuentes de aprendizaje reconocidas</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        <span class="learn-chip"><i class="ti ti-certificate"></i> SCJN - Tesis y jurisprudencia</span>
+        <span class="learn-chip"><i class="ti ti-book"></i> TJCA Estado de Mexico</span>
+        <span class="learn-chip"><i class="ti ti-gavel"></i> Litigacion CDMX</span>
+        <span class="learn-chip"><i class="ti ti-file-text"></i> Formularios de Pallares</span>
+        <span class="learn-chip"><i class="ti ti-scale"></i> Garcia Maynez - Tecnica juridica</span>
+        <span class="learn-chip"><i class="ti ti-library"></i> Ovalle Favela - Procesal Civil</span>
+      </div>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn btn-p" onclick="guardarEstilo()"><i class="ti ti-device-floppy"></i> Guardar mi perfil de estilo</button>
+      <button class="btn btn-o" onclick="verEstilo()"><i class="ti ti-eye"></i> Ver perfil guardado</button>
+      <button class="btn btn-o" onclick="borrarEstilo()"><i class="ti ti-trash"></i> Borrar perfil</button>
+    </div>
+    <div id="stRes" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<!-- CONFIG -->
+<div id="tab-config" class="tab-content">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-settings"></i> Configuracion de API y Modelo</div>
+    <div class="apikey-info" style="margin-bottom:8px">
+      <i class="ti ti-bolt"></i> <b>Groq</b>: API gratuita en <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a> → "Create API Key". Sin tarjeta. Limite: ~12,000 tokens/min con Llama 3.3 70B.<br>
+      <i class="ti ti-brand-google"></i> <b>Gemini</b>: API gratuita en <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → "Create API key". Sin tarjeta. Ventana de 1 millon de tokens. Ideal para documentos largos.
+    </div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:600;color:var(--texto2);margin-bottom:6px"><i class="ti ti-bolt" style="color:var(--oro)"></i> Groq API Key — <a href="https://console.groq.com/keys" target="_blank" style="color:var(--azulc)">Obtener gratis en console.groq.com/keys</a></div>
+      <div class="apk-row" style="margin-bottom:0">
+        <div><input type="password" id="apikey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx" oninput="saveK()" onblur="autoGuardaKey()"></div>
+        <button class="btn btn-o btn-sm" style="align-self:stretch" onclick="testK('groq')"><i class="ti ti-plug"></i> Probar</button>
+      </div>
+    </div>
+    <div id="ks" style="margin-bottom:10px"></div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:600;color:var(--texto2);margin-bottom:6px"><i class="ti ti-brand-google" style="color:#4285f4"></i> Google Gemini API Key — <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--azulc)">Obtener gratis en aistudio.google.com/apikey</a></div>
+      <div class="apk-row" style="margin-bottom:0">
+        <div><input type="password" id="geminikey" placeholder="AIzaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" oninput="saveGK()" onblur="autoGuardaGKey()"></div>
+        <button class="btn btn-o btn-sm" style="align-self:stretch" onclick="testK('gemini')"><i class="ti ti-plug"></i> Probar</button>
+      </div>
+    </div>
+    <div id="gks" style="margin-bottom:10px"></div>
+    
+    <div class="sep"></div>
+    <div class="card-title"><i class="ti ti-world-search"></i> 🌐 Conexión a leyes vigentes en línea</div>
+    <div class="sb sb-w"><i class="ti ti-alert-triangle"></i> <strong>Autobúsqueda de leyes actualizadas</strong> — La IA consultará automáticamente fuentes oficiales (diputados.gob.mx, scjn.gob.mx, ordenjuridico.gob.mx, <strong>poderjudicialedomex.gob.mx</strong> y más) para obtener los artículos vigentes según el caso, incluyendo información pública del expediente electrónico.</div>
+    <div class="g2">
+      <div><label>🔑 Google API Key (Custom Search)</label><input type="password" id="googleApiKey" placeholder="AIza... (obtener en console.cloud.google.com)"></div>
+      <div><label>🔍 Google Search Engine ID (CX)</label><input type="text" id="googleCx" placeholder="abc123... (crear en programmablesearchengine.google.com)"></div>
+    </div>
+    <div class="tip"><i class="ti ti-info-circle"></i> <strong>¿Cómo obtener tu API Key y CX gratuitas?</strong><br>
+      1. Ve a <a href="https://programmablesearchengine.google.com/" target="_blank">Google Programmable Search</a> y crea un motor que busque en estos sitios (copia y pega):<br>
+      <code>diputados.gob.mx</code>, <code>scjn.gob.mx</code>, <code>ordenjuridico.gob.mx</code>, <code>cdmx.gob.mx</code>, <strong><code>poderjudicialedomex.gob.mx</code></strong> (para el Tribunal Superior de Justicia y expediente electrónico).<br>
+      2. Copia el "ID del motor de búsqueda" (CX).<br>
+      3. Activa la API de Custom Search en <a href="https://console.cloud.google.com/apis/library/customsearch.googleapis.com" target="_blank">Google Cloud Console</a> y genera una API Key. <br>
+      4. Puedes hacer hasta 100 búsquedas/día gratis.<br>
+      Si no configuras esto, la IA usará solo el texto legal que pegues manualmente en el recuadro de abajo.
+    </div>
+    <div class="row"><button class="btn btn-o btn-sm" onclick="testLegalSearch()"><i class="ti ti-plug"></i> Probar búsqueda de leyes</button></div>
+    <div id="legalSearchStatus" class="tip" style="margin-top:8px"></div>
+    
+    <div class="sep"></div>
+    <div class="card-title"><i class="ti ti-article"></i> 📜 Leyes inyectadas manualmente (respaldo)</div>
+    <div class="sb sb-i"><i class="ti ti-info-circle"></i> Si la búsqueda en línea falla o no tienes API Key, puedes pegar aquí los artículos que quieras que la IA use de forma fija. Se combinarán con los resultados de la búsqueda automática.</div>
+    <div class="sb sb-s" style="margin-bottom:8px"><i class="ti ti-check"></i> <strong>Pack legal México 2025 precargado</strong> — Solo dale a <b>Guardar manual</b> y la IA usará estos artículos obligatoriamente.</div>
+    <textarea id="leyesActualizadas" rows="18" style="font-family:monospace;font-size:11px;">=== CÓDIGO DE PROCEDIMIENTOS CIVILES DEL ESTADO DE MÉXICO (CPCM) ===
+Artículo 1. Este Código regirá los procedimientos civiles en el Estado de México.
+Artículo 58. El plazo para contestar la demanda es de 9 días hábiles, contados desde la notificación.
+Artículo 72. En la contestación de la demanda se deben oponer todas las excepciones y defensas.
+Artículo 73. Las excepciones de incompetencia, litispendencia, conexión y cosa juzgada se resolverán antes del fondo.
+Artículo 76. La reconvención debe presentarse al contestar la demanda.
+Artículo 80. Las pruebas se ofrecen con la demanda y la contestación.
+Artículo 106. La carga de la prueba corresponde a quien alega el hecho.
+Artículo 386. Procede embargo precautorio cuando exista peligro de que el demandado oculte bienes.
+Artículo 400. La ejecución de sentencias se inicia a petición de parte.
+Artículo 401. En la ejecución forzosa se embargarán bienes suficientes.
+Artículo 1107. Las costas se impondrán a la parte que pierda el juicio.
+Artículo 1108. Los honorarios de abogados se fijarán según baremo del Colegio de Abogados.
+Artículo 1109. En juicio laboral no se condena en costas, salvo temeridad.
+
+=== CÓDIGO CIVIL FEDERAL (CCFed) ===
+Artículo 1. En todo el territorio de la República se observarán las leyes federales.
+Artículo 14. Las leyes no tienen efecto retroactivo, salvo disposición expresa.
+Artículo 16. El que obre con dolo o negligencia es responsable del daño.
+Artículo 1902. El que causa daño a otro, obrando con dolo o culpa, está obligado a repararlo.
+Artículo 1910. La responsabilidad civil se exige por el hecho ilícito.
+Artículo 1913. La acción para exigir reparación del daño prescribe en 5 años.
+Artículo 1916. El daño moral es indemnizable.
+Artículo 2121. El juez fijará la indemnización según las circunstancias.
+Artículo 1136. La prescripción extintiva opera por el transcurso del tiempo.
+Artículo 1137. La prescripción extintiva de acciones civiles es de 10 años.
+Artículo 1141. La prescripción adquisitiva ordinaria requiere 10 años de posesión.
+Artículo 1142. La prescripción adquisitiva extraordinaria requiere 20 años.
+Artículo 1155. La prescripción se interrumpe por demanda judicial.
+Artículo 1159. Las acciones mercantiles prescriben en 10 años.
+Artículo 1793. La acción de alimentos prescribe en 5 años.
+Artículo 2395. Interés legal civil: 9% anual (tasa Banxico 2025).
+Artículo 272. El divorcio incausado procede por voluntad de uno de los cónyuges.
+
+=== CÓDIGO DE COMERCIO (CCo) ===
+Artículo 1. Son actos de comercio las adquisiciones para enajenar.
+Artículo 362. Interés mercantil: 6% anual.
+Artículo 570. Título ejecutivo mercantil: pagaré, cheque, factura aceptada.
+Artículo 1060. Demanda mercantil ejecutiva: 15 días para pagar u oponer excepciones.
+Artículo 1061. Excepciones en juicio ejecutivo: falsedad, pago, prescripción.
+Artículo 1138. Crédito hipotecario: escritura pública inscrita.
+Artículo 1145. Ejecución hipotecaria: procedimiento especial.
+Artículo 1155. Remate de bienes hipotecados.
+
+=== LEY FEDERAL DEL TRABAJO (LFT) ===
+Artículo 48. Despido injustificado: reinstalación o indemnización (3 meses + 20 días/año).
+Artículo 50. Indemnización constitucional: 3 meses + 20 días/año + prima antigüedad.
+Artículo 67. Horas extra: doble tiempo, máximo 3 horas diarias, 3 veces por semana.
+Artículo 76. Vacaciones: 12 días primer año, +2 por año hasta 20, luego +2 cada 5 años.
+Artículo 80. Prima vacacional: mínimo 25% del salario de vacaciones.
+Artículo 87. Aguinaldo: mínimo 15 días de salario al año.
+Artículo 162. Prima de antigüedad: 12 días por año de servicio.
+Artículo 516. Prescripción laboral: 1 año.
+Artículo 873. Competencia de Juntas Locales y Federal.
+Artículo 874. Demanda laboral: hechos, pruebas, cuantía.
+Artículo 920. Emplazamiento a huelga: mayoría sindical.
+
+=== LEY DE AMPARO (LA) ===
+Artículo 1. El amparo protege derechos humanos contra actos de autoridad.
+Artículo 17. Plazos: 15 días hábiles (amparo directo), 8 días (indirecto).
+Artículo 18. Legitimación: interés legítimo y directo.
+Artículo 19. Suspensión: oficiosa o a petición, peligro en la demora.
+Artículo 61. Amparo directo: contra sentencias firmes.
+Artículo 62. Violaciones directas e indirectas.
+Artículo 71. Amparo en revisión: Tribunal Colegiado.
+Artículo 81. Queja: contra negativa de admisión.
+Artículo 92. Juicio de lesividad: tercero ajeno afectado por sentencia.
+Artículo 107. Constitución: amparo contra leyes y actos de autoridad.
+Artículo 129. Suspensión provisional: 5 días para resolver.
+
+=== CÓDIGO NACIONAL DE PROCEDIMIENTOS PENALES (CNPP) ===
+Artículo 16 CPEUM. Detención: 48 horas para poner a disposición (96 crimen organizado).
+Artículo 19 CPEUM. Vinculación a proceso: 72 horas (ampliable 144).
+Artículo 140. Derechos de la persona detenida.
+Artículo 141. Registro nacional de detenciones.
+
+=== LEY GENERAL DE VÍCTIMAS ===
+Artículo 1. Reparación integral del daño.
+Artículo 22. Medidas de ayuda, atención y reparación.
+
+=== REGLAS GENERALES (JURISPRUDENCIA SCJN) ===
+Tesis 1a./J. 10/2023: Interés moratorio civil = tasa Banxico.
+Tesis 1a. CCCXLV/2024: Daño moral no requiere prueba pericial.
+Tesis 2a. LX/2022: Prescripción extintiva se declara de oficio.
+Jurisprudencia 2023: Teoría de la carga procesal dinámica.
+Tesis Aislada 2024: Embargo precautorio no requiere fianza en materia familiar.</textarea>
+    <div class="row" style="margin-top:8px">
+      <button class="btn btn-p btn-sm" onclick="guardarLeyesActualizadas()"><i class="ti ti-device-floppy"></i> Guardar manual</button>
+      <button class="btn btn-o btn-sm" onclick="cargarLeyesActualizadas()"><i class="ti ti-refresh"></i> Recargar manual</button>
+      <button class="btn btn-o btn-sm" onclick="borrarLeyesActualizadas()"><i class="ti ti-trash"></i> Borrar manual</button>
+    </div>
+    <div id="leyesStatus" class="tip" style="margin-top:8px"></div>
+    
+    <div class="sep"></div>
+    <div style="font-size:13px;font-weight:600;color:var(--texto);margin-bottom:10px">Modelo de IA</div>
+    <div style="font-size:11px;font-weight:600;color:var(--texto3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Groq API (rapido — api.groq.com)</div>
+    <div class="msel" style="margin-bottom:6px">
+      <button class="mbtn on" data-m="llama-3.3-70b-versatile" data-prov="groq" onclick="selM(this)">&#9733; Llama 3.3 70B</button>
+      <button class="mbtn" data-m="llama-3.1-8b-instant" data-prov="groq" onclick="selM(this)">&#9889; Llama 3.1 8B</button>
+      <button class="mbtn" data-m="meta-llama/llama-4-scout-17b-16e-instruct" data-prov="groq" onclick="selM(this)">&#128293; Llama 4 Scout</button>
+    </div>
+    <div style="font-size:11px;font-weight:600;color:var(--texto3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;margin-top:10px">Google Gemini API (gratis — aistudio.google.com)</div>
+    <div class="msel" style="margin-bottom:6px">
+      <button class="mbtn" data-m="gemini-2.5-flash" data-prov="gemini" onclick="selM(this)">&#128640; Gemini 2.5 Flash</button>
+      <button class="mbtn" data-m="gemini-2.5-pro" data-prov="gemini" onclick="selM(this)">&#128081; Gemini 2.5 Pro</button>
+      <button class="mbtn" data-m="gemini-2.5-flash-lite" data-prov="gemini" onclick="selM(this)">&#9889; Gemini 2.5 Flash-Lite</button>
+    </div>
+    <div class="tip" style="margin-top:6px">
+      <b>Llama 3.3 70B (Groq)</b>: mejor calidad para redactar escritos. 12,000 tokens/min gratis.<br>
+      <b>Llama 3.1 8B (Groq)</b>: rapido, ideal para analizar documentos. 20,000 tokens/min gratis.<br>
+      <b>Gemini 2.5 Flash</b>: excelente para analizar y redactar, ventana de 1 millon de tokens.<br>
+      <b>Gemini 2.5 Pro</b>: el mas capaz de Google, razonamiento avanzado, gratis con limites.<br>
+      <b>Gemini 2.5 Flash-Lite</b>: el mas rapido y con mayor limite gratuito (15 req/min, 1,000/dia).<br>
+      <em style="color:#a32d2d">Retirados por Groq: Mixtral 8x7B, Gemma2 9B, Llama 3.1 70B.</em>
+    </div>
+    <div class="tip">Llama 3.3 70B: mejor para redactar escritos juridicos completos. Llama 3.1 8B: ideal para analizar documentos (mayor limite de tokens). Llama 4 Scout: modelo mas reciente de Meta en Groq 2025. Los modelos Mixtral 8x7B, Gemma2 9B y Llama 3.1 70B fueron retirados por Groq.</div>
+    <div class="sep"></div>
+    <div style="font-size:13px;font-weight:600;color:var(--texto);margin-bottom:8px">📊 Auditoria de uso (tokens, costos, errores)</div>
+    <div class="row" style="margin-bottom:10px">
+      <button class="btn btn-o btn-sm" onclick="verAuditLog()"><i class="ti ti-list-check"></i> Ver log de auditoría</button>
+      <button class="btn btn-o btn-sm" onclick="exportAuditLog()"><i class="ti ti-download"></i> Exportar CSV</button>
+      <button class="btn btn-o btn-sm" onclick="limpiarAuditLog()"><i class="ti ti-trash"></i> Limpiar log</button>
+    </div>
+    <div id="auditLogView" style="display:none;margin-top:10px;max-height:300px;overflow:auto"></div>
+    <div class="sep"></div>
+    <div style="font-size:13px;font-weight:600;color:var(--texto);margin-bottom:8px">Acerca de esta aplicacion</div>
+    <div class="tip" style="line-height:1.8">
+      <strong>JURIDICO_METEPEC_V19</strong> - Asistente Juridico IA Multi-Agente<br>
+      Desarrollado para el despacho del Lic. Julian Rodriguez Becerril &middot; Metepec, Estado de Mexico<br>
+      Legislacion mexicana vigente al anio 2025 &middot; Motor: Groq API (gratuita)<br>
+      Modelos activos Groq 2025: Llama 3.3 70B | Llama 3.1 8B | Llama 4 Scout 17B<br>
+      Exportacion: Word (.docx) en hoja oficio (216x356 mm) &middot; Times New Roman 12pt<br>
+      Lee PDF y Word &middot; Analiza y responde demandas automaticamente<br>
+      +48 tipos de escritos &middot; 5 agentes de IA en secuencia<br>
+      Funciona offline una vez cargado &middot; Datos solo van a Groq API<br>
+      <strong>✅ NUEVO: Búsqueda automática de leyes vigentes en sitios oficiales, incluido el Poder Judicial del Estado de México para consulta de expediente electrónico (tú proporcionas las credenciales).</strong>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<footer class="footer">Asistente Juridico IA V19 &middot; Lic. Julian Rodriguez Becerril &middot; Metepec, Estado de Mexico &middot; Uso exclusivo del despacho</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script>
+// ==================== CÓDIGO COMPLETO REPARADO ====================
+var model='llama-3.3-70b-versatile',provider='groq',apiKey='',geminiKey='',tipoSel='',finalTxt='',finalDocTxt='',docTexto='',docNombre='',histDetActual='';
+if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+var ENCRYPTION_KEY = null;
+var ENCRYPTION_SALT = 'juridico_v19_salt_2025';
+var USE_ENCRYPTION = location.protocol !== 'file:' && window.crypto && window.crypto.subtle;
+
+async function getEncryptionKey(){
+  if(!USE_ENCRYPTION) return null;
+  if(ENCRYPTION_KEY) return ENCRYPTION_KEY;
+  var password = 'JURIDICO_METEPEC_' + (navigator.userAgent.slice(0,50) + screen.width + screen.height).slice(0,100);
+  var enc = new TextEncoder();
+  var keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  ENCRYPTION_KEY = await crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt:enc.encode(ENCRYPTION_SALT), iterations:100000, hash:'SHA-256'},
+    keyMaterial, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']
+  );
+  return ENCRYPTION_KEY;
+}
+
+async function encryptData(data){
+  if(!USE_ENCRYPTION) return null;
+  try{
+    var key = await getEncryptionKey();
+    var enc = new TextEncoder();
+    var iv = crypto.getRandomValues(new Uint8Array(12));
+    var encrypted = await crypto.subtle.encrypt({name:'AES-GCM', iv:iv}, key, enc.encode(JSON.stringify(data)));
+    var combined = new Uint8Array(iv.length + encrypted.byteLength);
+    combined.set(iv); combined.set(new Uint8Array(encrypted), iv.length);
+    return btoa(String.fromCharCode.apply(null, combined));
+  }catch(e){ console.warn('Encriptación falló:',e); return null; }
+}
+
+async function decryptData(encryptedB64){
+  if(!USE_ENCRYPTION) return null;
+  try{
+    var key = await getEncryptionKey();
+    var combined = new Uint8Array(atob(encryptedB64).split('').map(function(c){return c.charCodeAt(0)}));
+    var iv = combined.slice(0,12);
+    var data = combined.slice(12);
+    var decrypted = await crypto.subtle.decrypt({name:'AES-GCM', iv:iv}, key, data);
+    return JSON.parse(new TextDecoder().decode(decrypted));
+  }catch(e){ console.warn('Desencriptación falló:',e); return null; }
+}
+
+async function lsSet(key, value, encrypt){
+  if(encrypt && USE_ENCRYPTION){
+    var enc = await encryptData(value);
+    if(enc) localStorage.setItem(key, enc);
+    else localStorage.setItem(key, JSON.stringify(value));
+  }else{
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+}
+
+async function lsGet(key, encrypt, defaultValue){
+  var raw = localStorage.getItem(key);
+  if(!raw) return defaultValue;
+  if(encrypt && USE_ENCRYPTION){
+    var dec = await decryptData(raw);
+    return dec !== null ? dec : defaultValue;
+  }
+  try{ return JSON.parse(raw); }catch(e){ return defaultValue; }
+}
+
+async function lsRemove(key){ localStorage.removeItem(key); }
+
+var ESCRITOS=[
+  {id:'demanda_civil',cat:'principales',ico:'ti-gavel',t:'Demanda Civil',d:'Ordinaria / Especial'},
+  {id:'demanda_merc',cat:'principales mercantil',ico:'ti-building-store',t:'Demanda Mercantil',d:'Ordinario / Ejecutivo'},
+  {id:'demanda_lab',cat:'principales laboral',ico:'ti-briefcase',t:'Demanda Laboral',d:'Ante STPS / JLCA'},
+  {id:'contestacion',cat:'principales',ico:'ti-file-dislike',t:'Contestacion Demanda',d:'Con excepciones'},
+  {id:'reconvencion',cat:'principales',ico:'ti-arrows-left-right',t:'Reconvencion',d:'Demanda vs. actor'},
+  {id:'amparo_ind',cat:'principales amparo',ico:'ti-shield-check',t:'Amparo Indirecto',d:'Art. 107 Ley Amparo'},
+  {id:'amparo_dir',cat:'principales amparo',ico:'ti-shield-star',t:'Amparo Directo',d:'Contra sentencia'},
+  {id:'susp_prov',cat:'amparo',ico:'ti-shield-pause',t:'Suspension Provisional',d:'Urgente en amparo'},
+  {id:'informe_just',cat:'amparo',ico:'ti-report',t:'Informe Justificado',d:'Autoridad en amparo'},
+  {id:'adhesion',cat:'amparo',ico:'ti-link',t:'Amparo Adhesivo',d:'Parte favorecida'},
+  {id:'apelacion',cat:'recursos',ico:'ti-arrow-back-up',t:'Apelacion',d:'Art. 688 CPCM'},
+  {id:'revocacion',cat:'recursos',ico:'ti-rotate',t:'Revocacion',d:'Contra autos'},
+  {id:'reposicion',cat:'recursos',ico:'ti-refresh',t:'Reposicion',d:'Segunda instancia'},
+  {id:'queja',cat:'recursos',ico:'ti-alert-triangle',t:'Queja',d:'Interlocutorias'},
+  {id:'aclaracion',cat:'recursos',ico:'ti-edit',t:'Aclaracion Sentencia',d:'Puntos oscuros'},
+  {id:'periodo_prob',cat:'probatorio promociones',ico:'ti-clipboard-list',t:'Abre Periodo Probatorio',d:'Solicitud apertura'},
+  {id:'ofr_doc',cat:'probatorio promociones',ico:'ti-file-plus',t:'Ofrece Documental',d:'Documentos y escrituras'},
+  {id:'ofr_test',cat:'probatorio promociones',ico:'ti-users',t:'Ofrece Testimonial',d:'Propuesta de testigos'},
+  {id:'ofr_per',cat:'probatorio promociones',ico:'ti-microscope',t:'Ofrece Pericial',d:'Designacion de perito'},
+  {id:'ofr_conf',cat:'probatorio promociones',ico:'ti-user-question',t:'Confesional',d:'Absolucion posiciones'},
+  {id:'superveniente',cat:'probatorio promociones',ico:'ti-file-alert',t:'Prueba Superveniente',d:'Posterior al periodo'},
+  {id:'desahogo',cat:'probatorio promociones',ico:'ti-check-list',t:'Desahoga Prueba',d:'Preparacion'},
+  {id:'impugna',cat:'probatorio promociones',ico:'ti-ban',t:'Impugna Prueba',d:'Objeta doc / testigos'},
+  {id:'embargo',cat:'cautelar',ico:'ti-lock',t:'Embargo Precautorio',d:'Art. 386 CPCM'},
+  {id:'arraigo',cat:'cautelar',ico:'ti-map-pin-pause',t:'Arraigo',d:'Medida personal'},
+  {id:'proh_enaj',cat:'cautelar',ico:'ti-ban',t:'Prohibe Enajenar',d:'Bienes inmuebles'},
+  {id:'sep_hogar',cat:'cautelar familiar',ico:'ti-home-off',t:'Separacion del Hogar',d:'Familiar / Violencia'},
+  {id:'excepciones',cat:'principales',ico:'ti-barrier-block',t:'Excepciones Procesales',d:'Incompetencia, etc.'},
+  {id:'inc_nulidad',cat:'promociones',ico:'ti-alert-circle',t:'Incidente Nulidad',d:'Nulidad actuaciones'},
+  {id:'inc_incomp',cat:'promociones',ico:'ti-transfer',t:'Declinatoria',d:'Cuestion competencia'},
+  {id:'inc_acum',cat:'promociones',ico:'ti-stack',t:'Acumulacion Autos',d:'Juicios conexos'},
+  {id:'alegatos',cat:'principales promociones',ico:'ti-podium',t:'Alegatos',d:'Cierre del debate'},
+  {id:'cumplimiento',cat:'promociones',ico:'ti-check',t:'Cumplimiento Sentencia',d:'Ejecucion del fallo'},
+  {id:'convenio',cat:'principales',ico:'ti-handshake',t:'Convenio',d:'Transaccion entre partes'},
+  {id:'alimentos',cat:'familiar',ico:'ti-heart',t:'Pension Alimenticia',d:'Fijacion / aumento'},
+  {id:'custodia',cat:'familiar',ico:'ti-user-heart',t:'Guarda y Custodia',d:'Regimen convivencia'},
+  {id:'divorcio',cat:'familiar',ico:'ti-ring-off',t:'Divorcio Incausado',d:'Art. 272 CCFED'},
+  {id:'sucesion',cat:'familiar',ico:'ti-scroll',t:'Juicio Sucesorio',d:'Testamentario'},
+  {id:'oral_merc',cat:'mercantil',ico:'ti-message-circle',t:'Oral Mercantil',d:'Hasta $576,985 (2025)'},
+  {id:'ejec_merc',cat:'mercantil',ico:'ti-credit-card-pay',t:'Ejecutivo Mercantil',d:'Pagare, cheque, factura'},
+  {id:'ampliacion',cat:'promociones',ico:'ti-arrows-maximize',t:'Ampliacion Demanda',d:'Nuevos hechos'},
+  {id:'desistimiento',cat:'promociones',ico:'ti-hand-stop',t:'Desistimiento',d:'De la accion'},
+  {id:'notif_pers',cat:'promociones',ico:'ti-mail-forward',t:'Notificacion Personal',d:'Por actuario'},
+  {id:'copias_cert',cat:'promociones',ico:'ti-copy',t:'Copias Certificadas',d:'Del expediente'},
+  {id:'desahoga_vista',cat:'promociones',ico:'ti-eye',t:'Desahoga Vista',d:'Respuesta a requerimiento'},
+  {id:'requerimiento',cat:'promociones',ico:'ti-bell-ring',t:'Requerimiento a Contraria',d:'Cumplimiento de obligacion'},
+  {id:'lab_reinstal',cat:'laboral',ico:'ti-user-plus',t:'Reinstalacion Laboral',d:'Ejecucion de laudo'},
+  {id:'lab_huelga',cat:'laboral',ico:'ti-send',t:'Emplazamiento a Huelga',d:'Art. 920 LFT'},
+  {id:'amparo_rev',cat:'amparo',ico:'ti-shield-search',t:'Amparo en Revisión',d:'Contra sentencia de amparo'},
+  {id:'queja_amparo',cat:'amparo',ico:'ti-alert-triangle',t:'Queja en Amparo',d:'Negativa de admisión'},
+  {id:'inc_susp',cat:'amparo',ico:'ti-shield-pause',t:'Incidente de Suspensión',d:'Medida cautelar amparo'},
+  {id:'lesividad',cat:'amparo',ico:'ti-gavel',t:'Juicio de Lesividad',d:'Art. 92 Ley Amparo'},
+  {id:'accion_col',cat:'amparo',ico:'ti-users-group',t:'Acción Colectiva',d:'Interés colectivo/difuso'},
+  {id:'concursal',cat:'mercantil',ico:'ti-bankruptcy',t:'Concurso Mercantil',d:'Ley Concursos Mercantiles'},
+  {id:'ejecutivo_hip',cat:'mercantil',ico:'ti-home',t:'Ejecutivo Hipotecario',d:'Crédito hipotecario'},
+  {id:'familiar_viol',cat:'familiar',ico:'ti-shield-off',t:'Violencia Familiar',d:'Ley Acceso Mujeres'},
+  {id:'adopcion',cat:'familiar',ico:'ti-baby',t:'Adopción',d:'Procedimiento especial'},
+  {id:'rectificacion',cat:'familiar',ico:'ti-file-edit',t:'Rectificación Acta',d:'Estado civil'},
+  {id:'prescripcion_ac',cat:'promociones',ico:'ti-clock',t:'Prescripción Adquisitiva',d:'Usucapión'},
+  {id:'prescripcion_ex',cat:'promociones',ico:'ti-clock',t:'Prescripción Extintiva',d:'Oposición excepción'},
+  {id:'daños_perj',cat:'principales',ico:'ti-coins',t:'Daños y Perjuicios',d:'Responsabilidad civil'},
+  {id:'cumplimiento_f',cat:'promociones',ico:'ti-check',t:'Cumplimiento Forzoso',d:'Ejecución de sentencia'},
+  {id:'costas_honor',cat:'promociones',ico:'ti-cash',t:'Costas y Honorarios',d:'Art. 1107 CPCM'},
+];
+
+var PLANTILLAS_ESCRITOS = {
+  demanda_civil: {estructura:['Proemio','Hechos','Fundamento Jurídico','Prueba','Petitorio','Firma'],articulosClave:['Art. 58 CPCM','Art. 60 CPCM','Art. 64 CPCM','Art. 1123 CCFed'],requisitos:['Juzgado competente','Partes completas','Hechos cronológicos','Pretensión clara','Pruebas ofrecidas','Firma abogado']},
+  demanda_merc: {estructura:['Proemio','Hechos','Fundamento Jurídico','Prueba','Petitorio','Firma'],articulosClave:['Art. 1060 CCo','Art. 1061 CCo','Art. 1138 CCo','Art. 570 CCo'],requisitos:['Juzgado competente','Título de crédito o contrato','Endosos si aplica','Monto líquido','Firma abogado']},
+  demanda_lab: {estructura:['Proemio','Hechos','Fundamento Jurídico','Prueba','Petitorio','Firma'],articulosClave:['Art. 873 LFT','Art. 874 LFT','Art. 48 LFT','Art. 50 LFT'],requisitos:['Junta competente','Relación laboral','Hechos laborales','Prestaciones reclamadas','Firma abogado']},
+  contestacion: {estructura:['Proemio','Excepciones','Negativa de hechos','Fundamento Jurídico','Prueba','Petitorio','Firma'],articulosClave:['Art. 72 CPCM','Art. 73 CPCM','Art. 76 CPCM','Art. 80 CPCM'],requisitos:['Todas las excepciones','Negativa hecho por hecho','Pruebas propias','Firma abogado']},
+  reconvencion: {estructura:['Proemio','Hechos reconvencionales','Fundamento Jurídico','Prueba','Petitorio','Firma'],articulosClave:['Art. 82 CPCM','Art. 83 CPCM','Art. 1123 CCFed'],requisitos:['Conexidad con demanda principal','Pretensión propia','Firma abogado']},
+  amparo_ind: {estructura:['Proemio','Acto reclamado','Violaciones','Conceptos de violación','Petitorio','Firma'],articulosClave:['Art. 107 CPEUM','Art. 17 LA','Art. 18 LA','Art. 19 LA'],requisitos:['Acto de autoridad','Violaciones concretas','Interés legítimo','Firma abogado']},
+  amparo_dir: {estructura:['Proemio','Sentencia recurrida','Violaciones','Conceptos','Petitorio','Firma'],articulosClave:['Art. 107 CPEUM','Art. 61 LA','Art. 62 LA','Art. 63 LA'],requisitos:['Sentencia firme','Violaciones directas','Firma abogado']},
+  apelacion: {estructura:['Proemio','Agravios','Fundamento','Petitorio','Firma'],articulosClave:['Art. 688 CPCM','Art. 689 CPCM','Art. 695 CPCM'],requisitos:['Auto apelable','Agravios fundados','Firma abogado']},
+  amparo_rev: {estructura:['Proemio','Sentencia recurrida','Violaciones','Petitorio','Firma'],articulosClave:['Art. 107 CPEUM','Art. 71 LA','Art. 72 LA'],requisitos:['Sentencia de amparo','Violaciones graves','Firma abogado']},
+  queja_amparo: {estructura:['Proemio','Auto impugnado','Agravios','Petitorio','Firma'],articulosClave:['Art. 107 CPEUM','Art. 81 LA','Art. 82 LA'],requisitos:['Negativa admisión','Agravios específicos','Firma abogado']},
+  inc_susp: {estructura:['Proemio','Peligro en la demora','Fumus boni iuris','Petitorio','Firma'],articulosClave:['Art. 107 CPEUM','Art. 17 LA','Art. 129 LA'],requisitos:['Urgencia acreditada','Violación inminente','Firma abogado']},
+  lesividad: {estructura:['Proemio','Sentencia lesiva','Interés legítimo','Violaciones','Petitorio','Firma'],articulosClave:['Art. 92 LA','Art. 93 LA','Art. 94 LA'],requisitos:['Tercero ajeno','Derechos afectados','Firma abogado']},
+  accion_col: {estructura:['Proemio','Interés colectivo','Legitimación','Hechos','Petitorio','Firma'],articulosClave:['Art. 17 CPEUM','Art. 94 LA','Art. 12 LFA'],requisitos:['30+ afectados','Interés difuso/colectivo','Firma abogado']},
+  concursal: {estructura:['Proemio','Estado insolvencia','Créditos','Bienes','Petitorio','Firma'],articulosClave:['Art. 1 LCM','Art. 10 LCM','Art. 75 LCM','Art. 142 LCM'],requisitos:['Insolvencia','Lista acreedores','Firma abogado']},
+  ejecutivo_hip: {estructura:['Proemio','Crédito hipotecario','Incumplimiento','Petitorio','Firma'],articulosClave:['Art. 1138 CCo','Art. 1145 CCo','Art. 1155 CCo'],requisitos:['Escritura pública','Incumplimiento','Firma abogado']},
+  familiar_viol: {estructura:['Proemio','Hechos violencia','Medidas protección','Petitorio','Firma'],articulosClave:['Art. 25 LAMV','Art. 26 LAMV','Art. 27 LAMV'],requisitos:['Relación familiar','Violencia acreditada','Firma abogado']},
+  adopcion: {estructura:['Proemio','Adoptante','Adoptado','Idoneidad','Petitorio','Firma'],articulosClave:['Art. 391 CCFed','Art. 392 CCFed','Art. 396 CCFed'],requisitos:['Idoneidad','Consentimientos','Firma abogado']},
+  rectificacion: {estructura:['Proemio','Acta a rectificar','Error','Prueba','Petitorio','Firma'],articulosClave:['Art. 56 CCFed','Art. 57 CCFed','Art. 113 CCFed'],requisitos:['Acta original','Error material','Firma abogado']},
+  prescripcion_ac: {estructura:['Proemio','Posesión','Tiempo','Animus domini','Petitorio','Firma'],articulosClave:['Art. 1141 CCFed','Art. 1142 CCFed','Art. 1155 CCFed'],requisitos:['10/20 años posesión','Pacífica continua','Firma abogado']},
+  prescripcion_ex: {estructura:['Proemio','Derecho prescrito','Tiempo transcurrido','Excepción','Petitorio','Firma'],articulosClave:['Art. 1136 CCFed','Art. 1137 CCFed','Art. 1159 CCFed'],requisitos:['Plazo cumplido','Oposición oportuna','Firma abogado']},
+  daños_perj: {estructura:['Proemio','Hechos dañosos','Responsabilidad','Cuantía','Petitorio','Firma'],articulosClave:['Art. 1902 CCFed','Art. 1910 CCFed','Art. 2121 CCFed'],requisitos:['Daño probado','Nexo causal','Cuantificación','Firma abogado']},
+  cumplimiento_f: {estructura:['Proemio','Sentencia','Incumplimiento','Medios ejecución','Petitorio','Firma'],articulosClave:['Art. 400 CPCM','Art. 401 CPCM','Art. 410 CPCM'],requisitos:['Sentencia firme','Incumplimiento','Firma abogado']},
+  costas_honor: {estructura:['Proemio','Condena costas','Honorarios','Criterios','Petitorio','Firma'],articulosClave:['Art. 1107 CPCM','Art. 1108 CPCM','Art. 1109 CPCM'],requisitos:['Sentencia con costas','Baremo honorarios','Firma abogado']},
+};
+
+function getPlantilla(tipo){
+  return PLANTILLAS_ESCRITOS[tipo] || {estructura:['Proemio','Hechos','Fundamento','Petitorio','Firma'],articulosClave:[],requisitos:[]};
+}
+
+function renderW(cat){cat=cat||'todos';var g=document.getElementById('wGrid');g.innerHTML='';ESCRITOS.filter(function(e){return cat==='todos'||e.cat.indexOf(cat)>=0}).forEach(function(e){var d=document.createElement('div');d.className='wcard'+(tipoSel===e.id?' sel':'');d.onclick=(function(ee){return function(){tipoSel=ee.id;document.getElementById('tipoLbl').textContent=ee.t;var ab=document.querySelector('#catTabs .ctb.on');renderW(ab?ab.dataset.cat:'todos')}})(e);d.innerHTML='<i class="ti '+e.ico+'"></i><strong>'+e.t+'</strong><span>'+e.d+'</span>';g.appendChild(d);});}
+function filtra(btn){document.querySelectorAll('#catTabs .ctb').forEach(function(b){b.classList.remove('on')});btn.classList.add('on');renderW(btn.dataset.cat);}
+function showTab(n,btn){document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active')});document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active')});var el=document.getElementById('tab-'+n);if(el)el.classList.add('active');if(btn)btn.classList.add('active');if(n==='historial')renderHist();}
+function showCalc(n,btn){['lft','plazo','int','pen','pens','presc','danos','costas'].forEach(function(c){var e=document.getElementById('c-'+c);if(e)e.style.display=c===n?'block':'none'});if(btn){btn.closest('.card').querySelectorAll('.cat-tabs .ctb').forEach(function(b){b.classList.remove('on')});btn.classList.add('on');}}
+function saveK(){apiKey=document.getElementById('apikey').value.trim();}
+async function autoGuardaKey(){var k=document.getElementById('apikey').value.trim();if(k)await lsSet('jur_apikey',k,true);}
+function saveGK(){geminiKey=document.getElementById('geminikey').value.trim();}
+async function autoGuardaGKey(){var k=document.getElementById('geminikey').value.trim();if(k)await lsSet('jur_geminikey',k,true);}
+function selM(btn){
+  document.querySelectorAll('.mbtn').forEach(function(b){b.classList.remove('on')});
+  btn.classList.add('on');
+  model=btn.dataset.m;
+  provider=btn.dataset.prov||'groq';
+}
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function isGemini(){return model.indexOf('gemini')>=0;}
+
+// ========== INYECCIÓN DE LEYES ACTUALIZADAS ==========
+var leyesActualizadasStr = "";
+var googleApiKey = "", googleCx = "";
+
+async function guardarLeyesActualizadas(){
+  var txt = document.getElementById('leyesActualizadas').value.trim();
+  if(!txt){
+    await lsRemove('jur_leyes_actualizadas');
+    leyesActualizadasStr = "";
+    document.getElementById('leyesStatus').innerHTML = '⚠️ No hay leyes manuales guardadas. Solo se usará la búsqueda en línea si está configurada.';
+    return;
+  }
+  await lsSet('jur_leyes_actualizadas', txt, true);
+  leyesActualizadasStr = txt;
+  document.getElementById('leyesStatus').innerHTML = '✅ Artículos manuales guardados. Se combinarán con búsqueda en línea.';
+}
+async function cargarLeyesActualizadas(){
+  var saved = await lsGet('jur_leyes_actualizadas', true, '');
+  if(saved){
+    document.getElementById('leyesActualizadas').value = saved;
+    leyesActualizadasStr = saved;
+    document.getElementById('leyesStatus').innerHTML = '✅ Leyes manuales cargadas desde almacenamiento local.';
+  } else {
+    document.getElementById('leyesStatus').innerHTML = 'ℹ️ No hay leyes manuales guardadas. Puedes pegarlas aquí.';
+    leyesActualizadasStr = "";
+  }
+}
+async function borrarLeyesActualizadas(){
+  await lsRemove('jur_leyes_actualizadas');
+  document.getElementById('leyesActualizadas').value = '';
+  leyesActualizadasStr = '';
+  document.getElementById('leyesStatus').innerHTML = '🗑️ Leyes manuales borradas.';
+}
+async function getGoogleSearchKeys(){
+  var key = document.getElementById('googleApiKey').value.trim();
+  var cx = document.getElementById('googleCx').value.trim();
+  if(key && cx){
+    await lsSet('jur_google_api_key', key, true);
+    await lsSet('jur_google_cx', cx, true);
+    googleApiKey = key;
+    googleCx = cx;
+    return true;
+  }
+  return false;
+}
+async function loadGoogleSearchKeys(){
+  var key = await lsGet('jur_google_api_key', true, '');
+  var cx = await lsGet('jur_google_cx', true, '');
+  if(key && cx){
+    document.getElementById('googleApiKey').value = key;
+    document.getElementById('googleCx').value = cx;
+    googleApiKey = key;
+    googleCx = cx;
+  }
+}
+async function testLegalSearch(){
+  if(!getGoogleSearchKeys()){
+    setSt('legalSearchStatus','e','❌ Falta API Key o CX de Google. Configúralos arriba.');
+    return;
+  }
+  setSt('legalSearchStatus','i','Buscando ley de prueba...', true);
+  try{
+    var query = "artículo 58 Código de Procedimientos Civiles Estado de México";
+    var url = `https://www.googleapis.com/customsearch/v1?key=${googleApiKey}&cx=${googleCx}&q=${encodeURIComponent(query)}&num=3`;
+    var resp = await fetch(url);
+    if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    var data = await resp.json();
+    if(data.items && data.items.length){
+      setSt('legalSearchStatus','s','✅ Búsqueda exitosa. La IA podrá obtener leyes actualizadas automáticamente.');
+    } else {
+      setSt('legalSearchStatus','w','⚠️ No se encontraron resultados. Revisa tu motor de búsqueda (debe incluir sitios oficiales).');
+    }
+  }catch(e){
+    setSt('legalSearchStatus','e','Error: '+e.message);
+  }
+}
+var leyesCache = {};
+var leyesCacheTimestamp = 0;
+var CACHE_TTL = 30 * 60 * 1000;
+var PROXY_URL = 'https://juridico-search-proxy.julianrodriguez.workers.dev';
+
+async function buscarLeyesOnline(query){
+  if(!googleApiKey || !googleCx) return "";
+  var cacheKey = query.toLowerCase().trim();
+  var now = Date.now();
+  if(leyesCache[cacheKey] && (now - leyesCacheTimestamp) < CACHE_TTL){
+    return leyesCache[cacheKey];
+  }
+  var url = `https://www.googleapis.com/customsearch/v1?key=${googleApiKey}&cx=${googleCx}&q=${encodeURIComponent(query)}&num=5`;
+  var proxyUrl = PROXY_URL + '?url=' + encodeURIComponent(url);
+  try{
+    var resp = await fetch(proxyUrl, { method: 'GET', headers: { 'Accept': 'application/json' }});
+    if(!resp.ok){
+      console.warn('Proxy falló, intentando directo (fallará por CORS):', resp.status);
+      resp = await fetch(url);
+    }
+    if(!resp.ok) return "";
+    var data = await resp.json();
+    if(!data.items) return "";
+    var resultados = [];
+    for(var i=0; i<data.items.length; i++){
+      var item = data.items[i];
+      resultados.push(`Fuente: ${item.title}\nURL: ${item.link}\nExtracto: ${item.snippet || 'Sin extracto'}`);
+    }
+    var result = resultados.length ? "\n\n=== LEYES VIGENTES OBTENIDAS DE INTERNET (fuentes oficiales) ===\n" + resultados.join("\n\n---\n") + "\n=== FIN DE INFORMACIÓN LEGAL ONLINE ===\n" : "";
+    leyesCache[cacheKey] = result;
+    leyesCacheTimestamp = now;
+    return result;
+  }catch(e){
+    console.warn("Error búsqueda leyes:", e);
+    return "";
+  }
+}
+async function obtenerLeyesCompletas(tema){
+  var cacheKey = 'completa_' + tema.toLowerCase().trim();
+  var now = Date.now();
+  if(leyesCache[cacheKey] && (now - leyesCacheTimestamp) < CACHE_TTL){
+    return leyesCache[cacheKey];
+  }
+  var online = await buscarLeyesOnline(tema);
+  var manual = leyesActualizadasStr ? "\n\n=== LEYES INYECTADAS MANUALMENTE POR EL ABOGADO ===\n" + leyesActualizadasStr + "\n=== FIN DE LEYES MANUALES ===\n" : "";
+  var result;
+  if(online || manual){
+    result = "⚠️ ATENCIÓN: Los modelos de IA tienen corte de conocimiento. Para este caso, SOLO debes usar los siguientes artículos vigentes proporcionados por búsqueda en línea y el abogado:\n" + online + manual + "\nNo uses artículos de tus memorias internas que no aparezcan aquí. Cita siempre el número exacto y la fuente oficial si está disponible.";
+  } else {
+    result = "⚠️ ADVERTENCIA: No se pudo obtener legislación actualizada automáticamente. Por favor, revisa la pestaña Configuración y asegúrate de tener configurada la búsqueda de leyes o pega manualmente los artículos vigentes. Mientras tanto, usa tus conocimientos generales con la indicación de que pueden estar desactualizados.";
+  }
+  leyesCache[cacheKey] = result;
+  leyesCacheTimestamp = now;
+  return result;
+}
+function limpiarCacheLeyes(){
+  leyesCache = {};
+  leyesCacheTimestamp = 0;
+  console.log('Cache de leyes limpiado');
+}
+// ===================================================
+
+async function groq(msgs,temp,maxTok){
+  temp=temp||0.2;maxTok=maxTok||3000;
+  if(isGemini()) return await callGemini(msgs,temp,maxTok);
+  return await callGroq(msgs,temp,maxTok);
+}
+async function callGroq(msgs,temp,maxTok){
+  var k=apiKey||document.getElementById('apikey').value.trim();
+  if(!k)throw new Error('Ingresa tu Groq API Key en la seccion Configuracion');
+  var intentos=0,espera=2000;
+  while(intentos<4){
+    try{
+      var r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},
+        body:JSON.stringify({model:model,messages:msgs,temperature:temp,max_tokens:maxTok})
+      });
+      if(r.status===429){
+        var e=await r.json().catch(function(){return{};});
+        var msg=e.error&&e.error.message?e.error.message:'Rate limit';
+        var match=msg.match(/try again in ([\d.]+)s/i);
+        var waitMs=match?Math.ceil(parseFloat(match[1])*1000)+500:espera;
+        await sleep(waitMs);espera*=2;intentos++;continue;
+      }
+      if(!r.ok){var e2=await r.json().catch(function(){return{};});throw new Error(e2.error&&e2.error.message?e2.error.message:'Error Groq HTTP '+r.status);}
+      return (await r.json()).choices[0].message.content;
+    }catch(ex){
+      if(ex.message&&(ex.message.indexOf('Rate limit')>=0||ex.message.indexOf('429')>=0)&&intentos<3){await sleep(espera);espera*=2;intentos++;continue;}
+      throw ex;
+    }
+  }
+  throw new Error('Limite de tokens Groq superado. Espera 60s o cambia a Gemini/Llama 3.1 8B.');
+}
+async function callGemini(msgs,temp,maxTok,modelOverride){
+  var k=geminiKey||document.getElementById('geminikey').value.trim();
+  if(!k)throw new Error('Ingresa tu Google Gemini API Key en Configuracion');
+  temp=temp||0.2; maxTok=maxTok||3000;
+  var mdl=modelOverride||model;
+  var contents=[], systemTxt='';
+  msgs.forEach(function(m){
+    if(m.role==='system'){ systemTxt=m.content; return; }
+    var txt=(m.role==='user'&&systemTxt)?systemTxt+'\n\n'+m.content:m.content;
+    contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:txt}]});
+    if(m.role==='user') systemTxt='';
+  });
+  if(!contents.length) contents=[{role:'user',parts:[{text:'Hola'}]}];
+  var body={contents:contents,generationConfig:{temperature:temp,maxOutputTokens:maxTok}};
+  var url='https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent?key='+k;
+  async function doFetch(){
+    var resp;
+    try{ resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); }
+    catch(netErr){ throw new Error('Sin conexion a internet o Google bloqueado: '+netErr.message); }
+    var data;
+    try{ data=await resp.json(); }catch(e){ throw new Error('Respuesta invalida de Gemini (HTTP '+resp.status+')'); }
+    return {resp:resp,data:data};
+  }
+  var res=await doFetch();
+  var resp=res.resp, data=res.data;
+  if(resp.status===429){
+    var waitSeg=30;
+    if(data&&data.error&&data.error.message){
+      var m429=data.error.message.match(/(\d+)\s*second/i);
+      if(m429) waitSeg=parseInt(m429[1])+2;
+    }
+    await sleep(waitSeg*1000);
+    res=await doFetch(); resp=res.resp; data=res.data;
+  }
+  if(!resp.ok){
+    var errMsg='Error HTTP '+resp.status;
+    if(data&&data.error) errMsg=data.error.message||errMsg;
+    if(errMsg.indexOf('API_KEY_INVALID')>=0||errMsg.indexOf('API key not valid')>=0)
+      throw new Error('API Key invalida. Copia la key completa desde aistudio.google.com/apikey (empieza con AIza)');
+    if(errMsg.indexOf('PERMISSION_DENIED')>=0||resp.status===403)
+      throw new Error('Permiso denegado. Asegurate de haber habilitado la Gemini API en aistudio.google.com');
+    if(errMsg.indexOf('not found')>=0||resp.status===404)
+      throw new Error('Modelo "'+mdl+'" no encontrado. Usa gemini-2.5-flash o gemini-2.5-flash-lite');
+    if(resp.status===429)
+      throw new Error('Limite de solicitudes Gemini alcanzado ('+waitSeg+'s de espera ya usados). Espera unos minutos.');
+    throw new Error(errMsg);
+  }
+  if(!data.candidates||!data.candidates.length){
+    if(data.promptFeedback&&data.promptFeedback.blockReason)
+      throw new Error('Gemini bloqueo por filtro de seguridad: '+data.promptFeedback.blockReason);
+    throw new Error('Gemini no devolvio texto. Intenta de nuevo o usa otro modelo.');
+  }
+  var cand=data.candidates[0];
+  if(cand.finishReason&&cand.finishReason==='SAFETY')
+    throw new Error('Gemini bloqueo la respuesta por filtros de seguridad. Intenta reformular.');
+  if(!cand.content||!cand.content.parts||!cand.content.parts.length)
+    throw new Error('Gemini devolvio respuesta vacia (finishReason: '+(cand.finishReason||'desconocido')+')');
+  return cand.content.parts[0].text;
+}
+function setSt(id,type,msg,loading){
+  var el=document.getElementById(id);if(!el)return;
+  var ico={'s':'check','e':'alert-circle','w':'alert-triangle','i':'info-circle'}[type]||'info-circle';
+  el.innerHTML='<div class="sb sb-'+type+'">'+(!loading?'<i class="ti ti-'+ico+'"></i>':'<span class="spin"></span>')+' <span>'+msg+'</span></div>';
+}
+function setAg(id,st){var el=document.getElementById(id);if(el)el.className='pn'+(st?' '+st:'');}
+function dzDrag(e,on){e.preventDefault();document.getElementById('dz').classList.toggle('drag',on);}
+function dzDrop(e){e.preventDefault();document.getElementById('dz').classList.remove('drag');if(e.dataTransfer.files[0])fileLoad(e.dataTransfer.files[0]);}
+async function leerPDF(file){
+  var buf=await file.arrayBuffer();
+  var pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  var txt='';
+  for(var i=1;i<=Math.min(pdf.numPages,40);i++){var page=await pdf.getPage(i);var c=await page.getTextContent();txt+=c.items.map(function(it){return it.str}).join(' ')+'\n';}
+  return txt.trim();
+}
+async function leerDOCX(file){
+  try{
+    var buf=await file.arrayBuffer();
+    var doc=await window.docx.DocxUnpacker.unpack(buf);
+    var paragraphs=doc.paragraphs;
+    var texts=[];
+    for(var i=0;i<paragraphs.length;i++){
+      var para=paragraphs[i];
+      var txt=para.children.map(function(c){return c.text||''}).join('');
+      if(txt.trim()) texts.push(txt);
+    }
+    var tablesText='';
+    if(doc.sections){
+      for(var s=0;s<doc.sections.length;s++){
+        var tables=doc.sections[s].tables||[];
+        for(var t=0;t<tables.length;t++){
+          var rows=tables[t].rows;
+          for(var r=0;r<rows.length;r++){
+            var cells=rows[r].cells;
+            for(var c=0;c<cells.length;c++){
+              var cellText=cells[c].paragraphs.map(function(p){return p.children.map(function(ch){return ch.text||''}).join('')}).join(' ');
+              if(cellText.trim()) tablesText+=' | '+cellText.trim();
+            }
+            if(tablesText) tablesText+='\n';
+          }
+        }
+      }
+    }
+    var fullText=texts.join('\n')+(tablesText?'\n--- TABLAS ---\n'+tablesText:'');
+    return fullText.trim()||'[DOCX sin texto extraíble]';
+  }catch(e){
+    console.warn('docx.js falló, fallback regex:',e);
+    try{
+      var buf=await file.arrayBuffer();var bytes=new Uint8Array(buf);
+      var text=new TextDecoder('utf-8',{fatal:false}).decode(bytes);
+      var xmlMatch=text.match(/<w:t[^>]*>([^<]*)<\/w:t>/g);
+      if(xmlMatch&&xmlMatch.length>5){return xmlMatch.map(function(m){return m.replace(/<[^>]+>/g,'')}).join(' ').trim();}
+      return text.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().slice(0,50000);
+    }catch(e2){return '[No se pudo extraer texto del DOCX. Guarda como .txt o .pdf e intenta de nuevo.]';}
+  }
+}
+async function fileLoad(file){
+  if(!file)return;docNombre=file.name;
+  var ext=file.name.split('.').pop().toLowerCase();
+  setSt('stDoc','i','Leyendo el archivo "'+file.name+'"...',true);
+  document.getElementById('resDocCard').style.display='block';
+  try{
+    var texto='';
+    if(ext==='pdf')texto=await leerPDF(file);
+    else if(ext==='txt'||ext==='rtf')texto=await file.text();
+    else if(ext==='docx'||ext==='doc')texto=await leerDOCX(file);
+    else texto=await file.text();
+    if(!texto||texto.trim().length<30){setSt('stDoc','w','Se leyo el archivo pero se extrajo poco texto. Prueba convertir a .txt o .pdf.');texto=texto||'';}
+    docTexto=texto;
+    var dz=document.getElementById('dz');dz.classList.add('loaded');
+    document.getElementById('dzIco').className='ti ti-file-check';
+    document.getElementById('dzTxt').textContent='Archivo cargado: '+file.name;
+    document.getElementById('dzSub').textContent=(texto.length/1000).toFixed(1)+'K caracteres extraidos - listo para analizar';
+    document.getElementById('docPreviewWrap').style.display='block';
+    document.getElementById('docPreview').textContent=texto.slice(0,900)+(texto.length>900?'\n\n[... continua en el analisis completo ...]':'');
+    setSt('stDoc','s','Documento cargado. Configura el tipo de respuesta y presiona Analizar y Generar Respuesta.');
+  }catch(err){setSt('stDoc','e','Error al leer el archivo: '+err.message);}
+}
+function chunkText(text, maxChunkSize){
+  var chunks=[];
+  var paragraphs=text.split('\n');
+  var current='';
+  for(var i=0;i<paragraphs.length;i++){
+    var p=paragraphs[i];
+    if((current+p).length>maxChunkSize && current.length>0){
+      chunks.push(current.trim());
+      current=p+'\n';
+    }else{
+      current+=p+'\n';
+    }
+  }
+  if(current.trim()) chunks.push(current.trim());
+  return chunks;
+}
+
+async function analizarDocumentoLargo(textoCompleto, cli, mat, est, tipoLabel, ins, fecha, estiloG, leyesPrompt){
+  var MAX_CHUNK=8000;
+  var chunks=chunkText(textoCompleto, MAX_CHUNK);
+  if(chunks.length===1) return textoCompleto;
+  setSt('stDoc','i','Documento largo detectado ('+chunks.length+' segmentos). Procesando por partes...',true);
+  var resumenes=[];
+  for(var i=0;i<chunks.length;i++){
+    setSt('stDoc','i','Analizando segmento '+(i+1)+'/'+chunks.length+'...',true);
+    var resumen=await groq([
+      {role:'system',content:leyesPrompt + '\n\nEres un abogado litigante mexicano experto. Extrae SOLO lo juridicamente relevante: hechos, fechas, montos, articulos, partes, pretensiones. Se conciso.'},
+      {role:'user',content:'Segmento '+(i+1)+'/'+chunks.length+' del documento de "'+cli+'" ('+mat+', '+est+').\nExtrae: hechos clave, fechas, montos, articulos citados, partes, pretensiones.\n\n'+chunks[i]}
+    ],0.1,800);
+    resumenes.push('[Segmento '+(i+1)+']\n'+resumen);
+  }
+  return resumenes.join('\n\n---\n\n');
+}
+
+async function analizarDoc(){
+  if(!docTexto){alert('Primero carga un documento PDF, Word o TXT');return;}
+  var k=apiKey||document.getElementById('apikey').value.trim();if(!k){alert('Ingresa tu Groq API Key en Configuracion');return;}
+  apiKey=k;
+  var cli=document.getElementById('dc_cli').value||'mi cliente';
+  var mat=document.getElementById('dc_mat').value;
+  var est=document.getElementById('dc_est').value;
+  var tipoResp=document.getElementById('tipoRespuesta').value;
+  var ins=document.getElementById('dc_ins').value;
+  var fecha=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+  var estiloG=getEstilo();
+  document.getElementById('btnAnalizar').disabled=true;
+  document.getElementById('btnAnalizar').innerHTML='<span class="spin"></span> Analizando con 5 agentes...';
+  document.getElementById('resDocCard').style.display='block';
+  document.getElementById('docRevSec').style.display='none';
+  document.getElementById('expDocRow').style.display='none';
+  ['da1','da2','da3','da4','da5'].forEach(function(id){setAg(id,'');});
+  setSt('stDoc','i','Agente 1 y 2: Extrayendo y analizando el documento...',true);
+  setAg('da1','act');setAg('da2','act');
+  document.getElementById('oDoc1').textContent='Analizando el documento...';
+  var pausaAgentes=async function(){await sleep(7000);};
+  var TIPOS={contestacion:'Contestacion de Demanda',excepciones:'Excepciones Procesales',reconvencion:'Reconvencion',amparo:'Demanda de Amparo Indirecto',apelacion:'Recurso de Apelacion',revocacion:'Recurso de Revocacion',informe:'Informe Justificado',estrategia:'Memorandum Estrategico',resumen:'Resumen Ejecutivo'};
+  var tipoLabel=TIPOS[tipoResp]||tipoResp;
+  getGoogleSearchKeys();
+  var leyesPrompt = await obtenerLeyesCompletas(mat + " " + tipoLabel + " " + est);
+  try{
+    var textoParaAnalisis = await analizarDocumentoLargo(docTexto, cli, mat, est, tipoLabel, ins, fecha, estiloG, leyesPrompt);
+    var analisis=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres un abogado litigante mexicano experto en "+mat+" con 30 anios de experiencia en "+est+". Analizas documentos juridicos con precision absoluta. Conoces el CPCM del Estado de Mexico, CPCDF, LFT, CCFed, CCo, Ley de Amparo, CNPP y toda legislacion mexicana vigente 2025."},
+      {role:'user',content:'Analiza este escrito juridico. Cliente: "'+cli+'" | Materia: '+mat+' | Estado: '+est+'\n\nDOCUMENTO (procesado completo):\n'+textoParaAnalisis+'\n\nIdentifica brevemente: 1)Tipo de documento 2)Partes 3)Juzgado/Expediente 4)Hechos clave(numerados,max 8) 5)Pretensiones 6)Articulos citados 7)Debilidades 8)Plazo para responder 9)Estrategia de defensa recomendada'}
+    ],0.1,2000);
+    setAg('da1','ok');setAg('da2','ok');
+    document.getElementById('oDoc1').textContent=analisis;
+    document.getElementById('docRevSec').style.display='block';
+    document.getElementById('oDoc2').textContent='Construyendo estrategia...';
+    document.getElementById('oDoc3rev').textContent='Pendiente...';
+    document.getElementById('oDoc3').textContent='Pendiente...';
+    setSt('stDoc','i','Agente 3: Construyendo estrategia de defensa...',true);setAg('da3','act');
+    var estrategia=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres un estratega de litigacion mexicano de alto nivel, especialista en "+mat+". Defines estrategias de defensa precisas."},
+      {role:'user',content:'Analisis:\n'+analisis+'\n\nCliente: '+cli+' | Materia: '+mat+' | Estado: '+est+'\nTipo de respuesta: '+tipoLabel+'\n'+(ins?'Instrucciones: '+ins:'')+'\n\nDefine: a) Estrategia principal; b) Excepciones a oponer con articulos exactos; c) Articulos clave vigentes 2025; d) Argumentos de mayor peso; e) Puntos que NO deben concederse; f) Riesgos procesales a evitar.'}
+    ],0.1,1500);
+    setAg('da3','ok');document.getElementById('oDoc2').textContent=estrategia;
+    setSt('stDoc','i','Agente 4: Redactando respuesta... (esperando limite TPM)',true);setAg('da4','act');
+    await pausaAgentes();
+    var estStr=estiloPrompt(estiloG);
+    var borrador=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres un abogado litigante mexicano senior especialista en "+mat+" en "+est+". Redactas escritos juridicos perfectos, formales, con articulos vigentes 2025. Contestas demandas rebatiendo hecho por hecho como un abogado humano experimentado. Responde SOLO con el texto completo del escrito."},
+      {role:'user',content:estStr+'\n\nRedacta un escrito de tipo "'+tipoLabel+'" para defender a "'+cli+'" basandote en:\n\nANALISIS:\n'+analisis+'\n\nESTRATEGIA:\n'+estrategia+'\n\nDOCUMENTO ORIGINAL (resumen):\n'+textoParaAnalisis.slice(0,5000)+'\n\nFecha: Metepec, Estado de Mexico, '+fecha+'\n'+(ins?'Instrucciones: '+ins:'')+'\n\nIncluye: proemio formal, hechos numerados rebatiendo UNO POR UNO los de la contraria, excepciones procesales, fundamento juridico con articulos exactos, puntos petitorios, fecha y firma.'}
+    ],0.15);
+    setAg('da4','ok');
+    setSt('stDoc','i','Agente 5: Version final con tu estilo... (esperando limite TPM)',true);setAg('da5','act');
+    await pausaAgentes();
+    var revision=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres revisor juridico mexicano experto. Verificas articulos vigentes, forma procesal, coherencia. Eres conciso."},
+      {role:'user',content:'Revisa este escrito de '+mat+' en '+est+':\n'+borrador+'\n\nIndica: articulos a corregir, errores procesales, mejoras al petitorio.'}
+    ],0.1,1000);
+    document.getElementById('oDoc3rev').textContent=revision;
+    var finalDoc=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres asistente juridico de elite. Produces la version final perfecta de escritos juridicos incorporando correcciones y el estilo exacto del abogado. SOLO el texto final."},
+      {role:'user',content:estStr+'\n\nBORRADOR:\n'+borrador+'\n\nCORRECCIONES DEL REVISOR:\n'+revision+'\n\nEntrega version final corregida y con el estilo personal del abogado.'}
+    ],0.15);
+    setAg('da5','ok');
+    document.getElementById('oDoc3').textContent=finalDoc;finalDocTxt=finalDoc;
+    setSt('stDoc','s','Documento analizado y respuesta generada por 5 agentes de IA - listo para descargar en Word');
+    document.getElementById('expDocRow').style.display='flex';
+  }catch(e){setSt('stDoc','e','Error: '+e.message);document.getElementById('da1').className='pn er';}
+  document.getElementById('btnAnalizar').disabled=false;
+  document.getElementById('btnAnalizar').innerHTML='<i class="ti ti-wand"></i> Analizar y Generar Respuesta';
+}
+function limpiarDoc(){
+  docTexto='';docNombre='';finalDocTxt='';
+  var dz=document.getElementById('dz');if(dz){dz.classList.remove('loaded','drag');}
+  document.getElementById('dzIco').className='ti ti-file-upload';
+  document.getElementById('dzTxt').textContent='Arrastra aqui tu PDF o Word, o haz clic para seleccionar';
+  document.getElementById('dzSub').textContent='Formatos: PDF, DOCX, DOC, TXT - hasta 15 MB';
+  document.getElementById('docPreviewWrap').style.display='none';
+  document.getElementById('resDocCard').style.display='none';
+  var fi=document.getElementById('fileInput');if(fi)fi.value='';
+  ['da1','da2','da3','da4','da5'].forEach(function(id){var e=document.getElementById(id);if(e)e.className='pn';});
+}
+async function generar(){
+  if(!tipoSel){alert('Selecciona un tipo de escrito del catalogo');return;}
+  var k=apiKey||document.getElementById('apikey').value.trim();if(!k){alert('Ingresa tu Groq API Key en Configuracion');return;}
+  apiKey=k;
+  var F=function(n){var e=document.getElementById(n);return e?e.value:'';};
+  var fd={juz:F('f_juz'),exp:F('f_exp'),cli:F('f_cli'),con:F('f_con'),mat:F('f_mat'),est:F('f_est'),hec:F('f_hec'),pet:F('f_pet'),pru:F('f_pru'),aud:F('f_aud'),abo:F('f_abo')||'Lic. Julian Rodriguez Becerril',ced:F('f_ced'),ins:F('f_ins')};
+  var est=getEstilo();
+  var tl=ESCRITOS.filter(function(e){return e.id===tipoSel})[0];tl=tl?tl.t:tipoSel;
+  var fecha=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('btnGen').disabled=true;
+  document.getElementById('btnGen').innerHTML='<span class="spin"></span> Generando...';
+  document.getElementById('resCard').style.display='block';
+  document.getElementById('revSec').style.display='none';
+  document.getElementById('expRow').style.display='none';
+  ['ag1','ag2','ag3','ag4'].forEach(function(id){var e=document.getElementById(id);if(e)e.className='pn';});
+  setSt('stMsg','i','Agente 1: Redactor juridico elaborando el escrito...',true);
+  setAg('ag1','act');document.getElementById('o1').textContent='Redactando...';
+  getGoogleSearchKeys();
+  var leyesPrompt = await obtenerLeyesCompletas(fd.mat + " " + tl + " " + fd.est);
+  try{
+    var b=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres abogado litigante mexicano senior experto en "+fd.mat+" en "+fd.est+". Redactas escritos juridicos perfectos con articulos vigentes 2025. Conoces el CPCM del Estado de Mexico, LFT, CCFed, CCo, Ley de Amparo y toda la legislacion federal y estatal vigente. SOLO el texto del escrito."},
+      {role:'user',content:'Escrito tipo: "'+tl+'"\nTribunal: '+(fd.juz||'[JUZGADO]')+'\nExpediente: '+(fd.exp||'[EXP]')+'\nPromovente: '+(fd.cli||'[CLIENTE]')+'\nContraparte: '+(fd.con||'[CONTRAPARTE]')+'\nMateria: '+fd.mat+' - Estado: '+fd.est+'\nHechos: '+(fd.hec||'[HECHOS]')+'\nPeticion: '+(fd.pet||'[PETICION]')+(fd.pru?'\nPruebas: '+fd.pru:'')+(fd.aud?'\nAudiencia: '+fd.aud:'')+'\nAbogado: '+fd.abo+(fd.ced?' | Ced: '+fd.ced:'')+'\nFecha: Metepec, Estado de Mexico, '+fecha+(fd.ins?'\nInstrucciones: '+fd.ins:'')+'\n\nIncluye: proemio formal, hechos numerados, fundamento juridico con articulos exactos vigentes, puntos petitorios concretos, fecha y firma.'}
+    ],0.15);
+    setAg('ag1','ok');document.getElementById('o1').textContent=b;
+    document.getElementById('revSec').style.display='block';document.getElementById('o2').textContent='Revisando...';
+    setSt('stMsg','i','Agente 2: Revision legal de articulos y forma procesal...',true);setAg('ag2','act');
+    var r2=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres revisor juridico mexicano experto. Detectas errores de articulos y forma procesal. Eres conciso."},
+      {role:'user',content:'Revisa escrito de '+fd.mat+' en '+fd.est+':\n'+b+'\n\nIndica: articulos a corregir, errores procesales, mejoras al petitorio.'}
+    ],0.1);
+    setAg('ag2','ok');document.getElementById('o2').textContent=r2;
+    setSt('stMsg','i','Agente 3: Validador de estilo aplicando tu perfil personal...',true);setAg('ag3','act');
+    var r3=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres asistente juridico de elite. Produces la version final perfecta de escritos juridicos aplicando el estilo exacto del abogado. SOLO el texto final."},
+      {role:'user',content:estiloPrompt(est)+'\n\nBORRADOR:\n'+b+'\n\nCORRECCIONES:\n'+r2+'\n\nEntrega version final incorporando correcciones y el estilo personal del abogado.'}
+    ],0.15);
+    setAg('ag3','ok');setAg('ag4','ok');
+    document.getElementById('o3').textContent=r3;finalTxt=r3;
+    setSt('stMsg','s','Escrito generado, revisado y validado por 3 agentes - listo para descargar en Word');
+    document.getElementById('expRow').style.display='flex';
+  }catch(e){setSt('stMsg','e','Error: '+e.message);document.getElementById('ag1').className='pn er';}
+  document.getElementById('btnGen').disabled=false;
+  document.getElementById('btnGen').innerHTML='<i class="ti ti-wand"></i> Generar Escrito con IA';
+}
+function limpiarF(){['f_juz','f_exp','f_cli','f_con','f_hec','f_pet','f_pru','f_aud','f_ins'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});nuevoE();}
+function nuevoE(){finalTxt='';document.getElementById('resCard').style.display='none';['ag1','ag2','ag3','ag4'].forEach(function(id){var e=document.getElementById(id);if(e)e.className='pn';});}
+async function revisar(){
+  var t=document.getElementById('rev_txt').value.trim();if(!t){alert('Pega el texto');return;}
+  var k=apiKey||document.getElementById('apikey').value.trim();if(!k){alert('Ingresa API Key');return;}
+  apiKey=k;document.getElementById('revRes').style.display='block';
+  setSt('revSt','i','Revisando con agente juridico experto...',true);
+  document.getElementById('revOut').textContent='Analizando...';
+  getGoogleSearchKeys();
+  var leyesPrompt = await obtenerLeyesCompletas(document.getElementById('rev_mat').value + " " + document.getElementById('rev_est').value);
+  try{
+    var r=await groq([
+      {role:'system',content:leyesPrompt + "\n\nEres revisor juridico mexicano con 30 anios de experiencia. Detectas errores de articulos, forma procesal y debilidades argumentativas."},
+      {role:'user',content:'Materia: '+document.getElementById('rev_mat').value+' | Estado: '+document.getElementById('rev_est').value+'\n\nEscrito:\n'+t+'\n\nProporciona: 1) Articulos incorrectos o a actualizar; 2) Errores de forma procesal; 3) Debilidades argumentativas; 4) Argumentos faltantes; 5) Calificacion: Listo / Requiere correcciones / No viable'}
+    ],0.1);
+    setSt('revSt','s','Revision completada');document.getElementById('revOut').textContent=r;
+  }catch(e){setSt('revSt','e','Error: '+e.message);}
+}
+function makeWord(txt,prefix){
+  if(!txt){alert('Genera un documento primero');return;}
+  var D=window.docx;var est=getEstilo();var children=[];
+  if(est.buf)children.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,spacing:{after:80},children:[new D.TextRun({text:est.buf.toUpperCase(),bold:true,size:22,font:'Times New Roman'})]}));
+  children.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,spacing:{after:120},children:[new D.TextRun({text:(est.abogado||'LIC. JULIAN RODRIGUEZ BECERRIL').toUpperCase(),bold:true,size:24,font:'Times New Roman'})]}));
+  var ct=[est.dom,est.tel,est.email].filter(Boolean).join(' | ');
+  if(ct)children.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,spacing:{after:80},children:[new D.TextRun({text:ct,size:18,font:'Times New Roman'})]}));
+  if(est.ced)children.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,spacing:{after:200},children:[new D.TextRun({text:'CEDULA PROFESIONAL: '+est.ced,size:18,font:'Times New Roman'})]}));
+  else children.push(new D.Paragraph({spacing:{after:200}}));
+  var lines=txt.split('\n');
+  lines.forEach(function(ln,idx){
+    var t=ln.trim();if(!t){children.push(new D.Paragraph({spacing:{after:80}}));return;}
+    var upper=t.toUpperCase();
+    var isTit=false;
+    if(/^(C\.?\s*JUEZ|C\.?\s*MAGISTRADO|H\.?\s*(JUZGADO|TRIBUNAL|SALA)|HONORABLE|PUNTOS\s+PETITORIOS?|PETITORIO|EXCEPCIONES?|HECHOS?|FUNDAMENTO|PRUEBAS?|CONSIDERANDOS?|RESUELVE|ACUERDO|SENTENCIA|AUTO)\b/.test(upper)) isTit=true;
+    else if(upper===t && t.length>4 && t.length<80 && !/^\d+[\.\)]/.test(t) && !/^ART[IÍ]CULO\s+\d+/i.test(t) && !/^[IVX]+\./.test(t)) isTit=true;
+    children.push(new D.Paragraph({alignment:isTit?D.AlignmentType.CENTER:D.AlignmentType.JUSTIFIED,spacing:{after:120},children:[new D.TextRun({text:t,bold:isTit,size:24,font:'Times New Roman'})]}));
+  });
+  var doc=new D.Document({sections:[{properties:{page:{size:{width:12240,height:20160},margin:{top:1440,right:1440,bottom:1440,left:1800}}},children:children}]});
+  var fname=prefix+'_'+new Date().toISOString().slice(0,10)+'.docx';
+  D.Packer.toBlob(doc).then(function(b){saveAs(b,fname);});
+}
+function expWord(){makeWord(finalTxt,'Escrito_'+(tipoSel||'juridico'));}
+function expWordDoc(){makeWord(finalDocTxt,'Respuesta_'+(document.getElementById('dc_cli').value||'cliente').split(' ')[0]);}
+function copiar(){if(finalTxt)navigator.clipboard.writeText(finalTxt).then(function(){alert('Texto copiado al portapapeles');});}
+function copiarDoc(){if(finalDocTxt)navigator.clipboard.writeText(finalDocTxt).then(function(){alert('Texto copiado al portapapeles');});}
+async function getEstilo(){
+  var saved=await lsGet('juridico_estilo_v19', true, {});var base=saved||{};
+  var p=function(n){var e=document.getElementById(n);return e&&e.value?e.value:(base[n]||'');};
+  return {abogado:p('st_abo')||'Lic. Julian Rodriguez Becerril',ced:p('st_ced'),buf:p('st_buf'),dom:p('st_dom'),tel:p('st_tel'),email:p('st_email'),ini:p('st_ini'),fin:p('st_fin'),pet:p('st_pet'),trat:p('st_trat')||'C. Juez',giros:p('st_giros'),estilo:p('st_estilo'),ej1:p('st_ej1'),ej2:p('st_ej2'),ej3:p('st_ej3'),ref:p('st_ref')};
+}
+function estiloPrompt(e){
+  var s='PERFIL DEL ABOGADO: '+e.abogado;
+  if(e.buf)s+=' | Despacho: '+e.buf;if(e.dom)s+=' | '+e.dom;if(e.ced)s+=' | Ced.Prof.: '+e.ced;
+  if(e.ini)s+='\nFormula inicio: "'+e.ini+'"';if(e.fin)s+='\nFormula cierre: "'+e.fin+'"';
+  if(e.pet)s+='\nFrase final: "'+e.pet+'"';if(e.trat)s+='\nTratamiento juzgado: "'+e.trat+'"';
+  if(e.giros)s+='\nGiros propios: '+e.giros;if(e.estilo)s+='\nEstilo: '+e.estilo;
+  var ejs=[e.ej1,e.ej2,e.ej3].filter(Boolean);
+  if(ejs.length)s+='\n\nEJEMPLOS REALES DE SUS ESCRITOS (aprende y replica este estilo exacto):\n'+ejs.join('\n---\n');
+  if(e.ref)s+='\nReferencias externas: '+e.ref;
+  return s;
+}
+async function guardarEstilo(){
+  var ids=['abo','ced','buf','dom','tel','email','ini','fin','pet','trat','giros','estilo','ej1','ej2','ej3','ref'];
+  var obj={};ids.forEach(function(id){var el=document.getElementById('st_'+id);if(el)obj[id]=el.value;});
+  await lsSet('juridico_estilo_v19',obj,true);
+  setSt('stRes','s','Perfil de estilo guardado correctamente. Se aplicara a todos los escritos generados.');
+}
+async function verEstilo(){
+  var saved=await lsGet('juridico_estilo_v19', true, null);
+  if(!saved){setSt('stRes','i','No hay perfil guardado aun. Llena los campos y presiona Guardar.');return;}
+  setSt('stRes','i','Perfil activo: '+(saved.abo||'-')+' | Despacho: '+(saved.buf||'-')+' | Estilo: '+(saved.estilo||'-')+' | Ejemplos: '+[saved.ej1,saved.ej2,saved.ej3].filter(Boolean).length+'/3');
+}
+async function borrarEstilo(){if(!confirm('Borrar el perfil de estilo guardado?'))return;await lsRemove('juridico_estilo_v19');setSt('stRes','w','Perfil borrado. Los escritos se generaran con estilo base.');}
+async function cargarEstiloDB(){
+  var saved=await lsGet('juridico_estilo_v19', true, null);if(!saved)return;
+  try{var map={abo:'st_abo',ced:'st_ced',buf:'st_buf',dom:'st_dom',tel:'st_tel',email:'st_email',ini:'st_ini',fin:'st_fin',pet:'st_pet',trat:'st_trat',giros:'st_giros',estilo:'st_estilo',ej1:'st_ej1',ej2:'st_ej2',ej3:'st_ej3',ref:'st_ref'};Object.keys(map).forEach(function(k){var el=document.getElementById(map[k]);if(el&&saved[k])el.value=saved[k];});}catch(e){}
+}
+async function guardarHist(tipo){
+  var txt=tipo==='doc'?finalDocTxt:finalTxt;if(!txt){alert('No hay documento generado');return;}
+  var hist=await lsGet('juridico_hist_v19', true, []);
+  hist.unshift({id:Date.now(),tipo:tipo,fecha:new Date().toLocaleString('es-MX'),resumen:txt.slice(0,120)+'...',txt:txt});
+  if(hist.length>30)hist.pop();await lsSet('juridico_hist_v19',hist,true);
+  alert('Documento guardado en historial');
+}
+async function renderHist(){
+  var hist=await lsGet('juridico_hist_v19', true, []);
+  var el=document.getElementById('histList');
+  if(!hist.length){el.innerHTML='<div class="sb sb-i"><i class="ti ti-info-circle"></i> No hay documentos guardados aun. Genera escritos y presiona Guardar en historial.</div>';return;}
+  el.innerHTML=hist.map(function(h){return '<div class="hist-item" onclick="verHistItem('+h.id+')"><div class="hist-item-hd"><strong>'+(h.tipo==='doc'?'Respuesta a documento':'Escrito elaborado')+'</strong><span>'+h.fecha+'</span></div><p>'+h.resumen+'</p></div>';}).join('');
+}
+async function verHistItem(id){
+  var hist=await lsGet('juridico_hist_v19', true, []);var item=hist.filter(function(h){return h.id===id})[0];if(!item)return;
+  histDetActual=item.txt;document.getElementById('histDetCard').style.display='block';document.getElementById('histDetTxt').textContent=item.txt;
+  document.getElementById('histDetCard').scrollIntoView({behavior:'smooth'});
+}
+function expWordHist(){makeWord(histDetActual,'Hist_doc');}
+function copiarHist(){if(histDetActual)navigator.clipboard.writeText(histDetActual).then(function(){alert('Copiado');});}
+async function limpiarHist(){if(!confirm('Borrar todo el historial?'))return;await lsRemove('juridico_hist_v19');renderHist();document.getElementById('histDetCard').style.display='none';}
+async function testK(prov){
+  prov=prov||'groq';
+  if(prov==='groq'){
+    var k=document.getElementById('apikey').value.trim();
+    if(!k){setSt('ks','e','Ingresa tu Groq API Key primero');return;}
+    apiKey=k; setSt('ks','i','Probando conexion con Groq...',true);
+    try{
+      await callGroq([{role:'user',content:'Responde solo: OK'}],0.1,5);
+      setSt('ks','s','Conexion exitosa con Groq - listo para usar');
+    }catch(e){ setSt('ks','e','Error Groq: '+e.message); }
+  } else {
+    var gk=document.getElementById('geminikey').value.trim();
+    if(!gk){setSt('gks','e','Ingresa tu Gemini API Key primero');return;}
+    geminiKey=gk;
+    setSt('gks','i','Probando con Gemini 2.5 Flash Lite (mayor limite gratuito)...',true);
+    try{
+      await callGemini(
+        [{role:'user',content:'Responde solo la palabra: FUNCIONANDO'}],
+        0.1, 20, 'gemini-2.5-flash-lite'
+      );
+      setSt('gks','s','Conexion exitosa con Google Gemini - API Key valida. Modelo activo: '+model);
+    }catch(e){
+      var msg=e.message||'Error desconocido';
+      setSt('gks','e',msg);
+    }
+  }
+}
+function getFestivosMexico(year){
+  var festivos=[];
+  var add=function(m,d){festivos.push(String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'))};
+  add(1,1);
+  add(2,5);
+  add(5,1);
+  add(9,16);
+  add(11,2);
+  add(11,20);
+  add(12,25);
+  var a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mes=Math.floor((h+l-7*m+114)/31),dia=((h+l-7*m+114)%31)+1;
+  add(mes,dia);
+  var lunesPascua=new Date(year,mes-1,dia+1);
+  add(lunesPascua.getMonth()+1,lunesPascua.getDate());
+  var juarez=new Date(year,2,1);
+  var primerLunesJuarez=new Date(juarez);
+  primerLunesJuarez.setDate(1+(7-juarez.getDay())%7);
+  add(primerLunesJuarez.getMonth()+1,primerLunesJuarez.getDate());
+  var revolucion=new Date(year,10,1);
+  var tercerLunesRev=new Date(revolucion);
+  tercerLunesRev.setDate(15+(7-revolucion.getDay())%7);
+  add(tercerLunesRev.getMonth()+1,tercerLunesRev.getDate());
+  if(year>=2024&&year%6===4){
+    var elecciones=new Date(year,5,2);
+    add(elecciones.getMonth()+1,elecciones.getDate());
+  }
+  return festivos;
+}
+function getFestivosCache(year){
+  var cache=localStorage.getItem('jur_festivos_'+year);
+  if(cache){
+    try{ var parsed=JSON.parse(cache); if(parsed.ts && Date.now()-parsed.ts<86400000) return parsed.dias; }catch(e){}
+  }
+  var dias=getFestivosMexico(year);
+  localStorage.setItem('jur_festivos_'+year,JSON.stringify({ts:Date.now(),dias:dias}));
+  return dias;
+}
+function esFest(d){var k=String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');var fest=getFestivosCache(d.getFullYear());return fest.indexOf(k)>=0;}
+function esHab(d){return d.getDay()!==0&&d.getDay()!==6&&!esFest(d);}
+function getFestivosTexto(year){
+  var nombres={
+    '01-01':'Año Nuevo','02-05':'Constitución','03-21':'Natalicio Benito Juárez (conmemorativo)',
+    '05-01':'Día del Trabajo','09-16':'Independencia','11-02':'Día de Muertos',
+    '11-20':'Revolución Mexicana','12-25':'Navidad'
+  };
+  var fest=getFestivosCache(year||new Date().getFullYear());
+  return fest.map(function(f){return (nombres[f]||f)}).join(' | ');
+}
+function ajD(){var v=document.getElementById('p_tip').value;var n={'9':9,'15':15,'8':8,'15a':15,'5':5,'3':3,'10':10,'30':30,'15l':15,'20m':20,'c':0};var nd=document.getElementById('p_d');if(nd)nd.value=n[v]!==undefined?n[v]:9;var td=document.getElementById('p_td');if(td)td.value=(v==='30'||v==='15l')?'n':'h';}
+function calcP(){
+  var s=document.getElementById('p_ini').value;if(!s){alert('Selecciona la fecha de notificacion');return;}
+  var td=document.getElementById('p_td').value;var dias=parseInt(document.getElementById('p_d').value)||9;
+  var d=new Date(s+'T12:00:00'),c=0,it=0;
+  while(c<dias&&it<700){d.setDate(d.getDate()+1);it++;if(td==='h'){if(esHab(d))c++;}else c++;}
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var urg=(new Date(d)-new Date())<3*86400000;var venc1=(new Date(d)-new Date())<86400000;
+  document.getElementById('pRes').style.display='block';
+  document.getElementById('pOut').textContent='COMPUTO DE PLAZO PROCESAL\n'+'-'.repeat(46)+'\nFecha de notificacion: '+new Date(s+'T12:00:00').toLocaleDateString('es-MX',opts)+'\nPlazo: '+dias+' dias '+(td==='h'?'HABILES':'NATURALES')+'\n\nFecha de vencimiento:\n'+d.toLocaleDateString('es-MX',opts).toUpperCase()+'\n\n'+(venc1?'CRITICO: VENCE HOY O MANANA':urg?'ATENCION: VENCE EN MENOS DE 3 DIAS':'Plazo con tiempo suficiente')+'\n\nDias festivos oficiales excluidos:\n'+getFestivosTexto();
+}
+function calcLFT(){
+  var sdi=parseFloat(document.getElementById('l_sdi').value)||0;var yr=parseFloat(document.getElementById('l_yr').value)||0;
+  var agu=parseFloat(document.getElementById('l_agu').value)||15;var cau=document.getElementById('l_cau').value;
+  var pv=parseFloat(document.getElementById('l_pv').value)||25;var he=parseFloat(document.getElementById('l_he').value)||0;
+  if(!sdi||!yr){alert('Ingresa el SDI y los anios de servicio');return;}
+  var TV=[[1,12],[2,14],[3,16],[4,18],[5,20],[6,22],[7,24],[8,26],[9,28],[10,30],[11,32],[12,34],[13,36],[14,38],[15,40],[16,42],[17,44],[18,46],[19,48],[20,50]];
+  var dv=12;TV.forEach(function(yv){if(yr>=yv[0])dv=yv[1];});if(yr>20)dv=50+Math.floor((yr-20)/5)*2;
+  var vac=sdi*dv,pvac=vac*(pv/100),agui=sdi*agu,ind=0,detInd='';
+  if(cau==='inj'){var t3=sdi*90,v20=sdi*20*yr,pa=sdi*12*yr;ind=t3+v20+pa;detInd='\nINDEMNIZACION (Arts. 48, 50 LFT):\n  3 meses:                       $'+t3.toLocaleString('es-MX',{minimumFractionDigits:2})+'\n  20 dias/anio:                  $'+v20.toLocaleString('es-MX',{minimumFractionDigits:2})+'\n  Prima antiguedad (Art.162):    $'+pa.toLocaleString('es-MX',{minimumFractionDigits:2});}
+  else if(cau==='ren'||cau==='ret'){var pa2=sdi*12*yr;ind=pa2;detInd='\nPRIMA DE ANTIGUEDAD (Art. 162):\n  $'+pa2.toLocaleString('es-MX',{minimumFractionDigits:2});}
+  var heT=0,detHE='';if(he>0){heT=sdi*he*2*52;detHE='\nHORAS EXTRA (Art. 67 LFT - doble tiempo):\n  $'+heT.toLocaleString('es-MX',{minimumFractionDigits:2});}
+  var tot=vac+pvac+agui+ind+heT;
+  document.getElementById('lRes').style.display='block';
+  document.getElementById('lOut').textContent='LIQUIDACION LABORAL - CALCULO COMPLETO\n'+'-'.repeat(50)+'\nSDI: $'+sdi.toLocaleString('es-MX',{minimumFractionDigits:2})+' | Anios: '+yr+'\nCausa: '+(cau==='inj'?'Despido injustificado':cau==='ren'?'Renuncia voluntaria':cau==='ret'?'Retiro voluntario':'Mutuo acuerdo')+'\n\nPRESTACIONES (Arts. 76, 80, 87 LFT):\n  Dias vacaciones (Art.76): '+dv+' dias\n  Vacaciones:                    $'+vac.toLocaleString('es-MX',{minimumFractionDigits:2})+'\n  Prima vacacional '+pv+'% (Art.80):  $'+pvac.toLocaleString('es-MX',{minimumFractionDigits:2})+'\n  Aguinaldo '+agu+'d (Art.87):          $'+agui.toLocaleString('es-MX',{minimumFractionDigits:2})+detInd+detHE+'\n'+'-'.repeat(50)+'\n  TOTAL APROXIMADO:              $'+tot.toLocaleString('es-MX',{minimumFractionDigits:2})+' MXN\n'+'-'.repeat(50)+'\n* Verificar dias proporcionales, bonos, parte variable del SDI\n  y demas conceptos especificos del caso concreto.';
+}
+function calcI(){
+  var c=parseFloat(document.getElementById('i_c').value)||0,t=parseFloat(document.getElementById('i_t').value)||9;
+  var ini=document.getElementById('i_i').value,fin=document.getElementById('i_f').value;
+  if(!c||!ini||!fin){alert('Completa todos los campos');return;}
+  var dias=(new Date(fin)-new Date(ini))/86400000;if(dias<0){alert('La fecha fin debe ser posterior al inicio');return;}
+  var tipo=document.getElementById('i_tipo').value,fund=document.getElementById('i_fund').value;
+  var int2=tipo==='simple'?c*(t/100)*(dias/365):c*Math.pow(1+t/100,dias/365)-c;
+  document.getElementById('iRes').style.display='block';
+  document.getElementById('iOut').textContent='CALCULO DE INTERESES '+tipo.toUpperCase()+'\n'+'-'.repeat(42)+'\nCapital:          $'+c.toLocaleString('es-MX',{minimumFractionDigits:2})+' MXN\nTasa anual:        '+t+'%\nPeriodo:           '+Math.round(dias)+' dias ('+( dias/365).toFixed(2)+' anios)\nIntereses:         $'+int2.toLocaleString('es-MX',{minimumFractionDigits:2})+' MXN\n'+'-'.repeat(42)+'\nTOTAL:             $'+(c+int2).toLocaleString('es-MX',{minimumFractionDigits:2})+' MXN\n\nFundamento: '+fund;
+}
+function calcPen(){
+  var s=document.getElementById('pe_i').value;if(!s){alert('Ingresa la fecha y hora de detencion');return;}
+  var t=parseInt(document.getElementById('pe_t').value)||48;var d=new Date(s);d.setHours(d.getHours()+t);
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'};
+  var rest=Math.max(0,(d-new Date())/3600000);
+  document.getElementById('penRes').style.display='block';
+  document.getElementById('penOut').textContent='TERMINO CONSTITUCIONAL\n'+'-'.repeat(40)+'\nDetencion: '+new Date(s).toLocaleString('es-MX',opts)+'\nTermino:   '+t+' horas\nFundamento: '+(t===48?'Art. 16 CPEUM':t===96?'Art. 16 CPEUM (org. delincuencial)':'Art. 19 CPEUM')+'\n\nVENCE:\n'+d.toLocaleString('es-MX',opts).toUpperCase()+'\n\n'+(rest>0?'Horas restantes: '+rest.toFixed(1)+' h':'TERMINO CONSTITUCIONAL VENCIDO');
+}
+function calcPens(){
+  var ing=parseFloat(document.getElementById('ps_ing').value)||0;var hijos=parseInt(document.getElementById('ps_hijos').value)||1;
+  var pct=parseFloat(document.getElementById('ps_pct').value)||30;var cony=document.getElementById('ps_cony').value==='si';
+  var est=document.getElementById('ps_est').value;
+  if(!ing){alert('Ingresa los ingresos del deudor');return;}
+  var pctC=cony?10:0,pctTot=pct+pctC,mH=ing*(pct/100),mC=ing*(pctC/100),tot=mH+mC;
+  var uma2025=248.93,min=uma2025*0.5*30*hijos;
+  document.getElementById('pensRes').style.display='block';
+  document.getElementById('pensOut').textContent='PENSION ALIMENTICIA - REFERENCIA\n'+'-'.repeat(44)+'\nIngresos netos deudor: $'+ing.toLocaleString('es-MX',{minimumFractionDigits:2})+'/mes\nNumero de hijos: '+hijos+(cony?'\nConyuge acreedor: si':'')+'\nEstado: '+est+'\n\nPORCENTAJE PROPUESTO:\n  Hijos ('+hijos+'): '+pct+'% = $'+mH.toLocaleString('es-MX',{minimumFractionDigits:2})+'/mes'+(cony?'\n  Conyuge: '+pctC+'% = $'+mC.toLocaleString('es-MX',{minimumFractionDigits:2})+'/mes':'')+'\n\nTOTAL: '+pctTot+'% = $'+tot.toLocaleString('es-MX',{minimumFractionDigits:2})+'/mes\n\nMinimo referencial (0.5 UMA/dia x hijos): $'+min.toLocaleString('es-MX',{minimumFractionDigits:2})+'/mes\n\n* Referencia orientativa. El juez fija el monto por\n  proporcionalidad. Acompanar con estudio socioeconomico.';
+}
+function calcPrescripcion(){
+  var tipo=document.getElementById('pr_tipo').value;
+  var ini=document.getElementById('pr_ini').value;
+  var fin=document.getElementById('pr_fin').value;
+  var int=document.getElementById('pr_int').value;
+  var intF=document.getElementById('pr_int_f').value;
+  if(!ini||!fin){alert('Completa las fechas');return;}
+  var plazos={adq_civil:10,adq_civil_b:20,ext_civil:10,ext_merc:10,ext_lab:1,ext_fam_alim:5,ext_fam_dano:5};
+  var anos=plazos[tipo]||10;
+  var inicio=new Date(ini);
+  var corte=new Date(fin);
+  if(int==='si' && intF){ inicio=new Date(intF); }
+  var diff=corte-inicio;
+  var anosTrans=diff/31557600000;
+  var pend=Math.max(0,anos-anosTrans);
+  var venc=new Date(inicio); venc.setFullYear(venc.getFullYear()+anos);
+  document.getElementById('prRes').style.display='block';
+  document.getElementById('prOut').textContent='CÁLCULO DE PRESCRIPCIÓN\n'+'-'.repeat(50)+'\nTipo: '+document.getElementById('pr_tipo').options[document.getElementById('pr_tipo').selectedIndex].text+'\nPlazo legal: '+anos+' años\nInicio: '+inicio.toLocaleDateString('es-MX')+'\nCorte: '+corte.toLocaleDateString('es-MX')+'\n\nAños transcurridos: '+anosTrans.toFixed(2)+'\nAños pendientes: '+pend.toFixed(2)+'\nFecha de vencimiento: '+venc.toLocaleDateString('es-MX')+'\n\n'+(pend<=0?'✅ PRESCRIPCIÓN CONSUMADA':'⏳ EN CURSO - Faltan '+pend.toFixed(2)+' años')+'\n\nFundamento: '+tipo;
+}
+function calcDanos(){
+  var em=parseFloat(document.getElementById('dn_em').value)||0;
+  var lc=parseFloat(document.getElementById('dn_lc').value)||0;
+  var mo=parseFloat(document.getElementById('dn_mo').value)||0;
+  var pu=parseFloat(document.getElementById('dn_pu').value)||0;
+  var ga=parseFloat(document.getElementById('dn_ga').value)||0;
+  var intereses=parseFloat(document.getElementById('dn_in').value)||0;
+  var tot=em+lc+mo+pu+ga+intereses;
+  document.getElementById('dnRes').style.display='block';
+  document.getElementById('dnOut').textContent='CÁLCULO DE DAÑOS Y PERJUICIOS\n'+'-'.repeat(50)+'\nDaño emergente:         $'+em.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nLucro cesante:           $'+lc.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nDaño moral:              $'+mo.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nDaño punitivo:           $'+pu.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nGastos legales/periciales: $'+ga.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nIntereses:               $'+intereses.toLocaleString('es-MX',{minimumFractionDigits:2})+'\n'+'-'.repeat(50)+'\nTOTAL RECLAMADO:         $'+tot.toLocaleString('es-MX',{minimumFractionDigits:2})+' MXN\n\nFundamento: Arts. 1902, 1910, 1916, 2121 CCFed\n* El juez fija según proporcionalidad (Art. 2121 CCFed)\n* Acreditar nexo causal y cuantificación pericial';
+}
+function calcCostas(){
+  var cuan=parseFloat(document.getElementById('cs_cuan').value)||0;
+  var tip=document.getElementById('cs_tip').value;
+  var ins=document.getElementById('cs_ins').value;
+  var min=parseFloat(document.getElementById('cs_min').value)||10;
+  var max=parseFloat(document.getElementById('cs_max').value)||20;
+  var proc=parseFloat(document.getElementById('cs_proc').value)||0;
+  if(!cuan){alert('Ingresa la cuantía');return;}
+  var honMin=cuan*min/100, honMax=cuan*max/100;
+  var mult={ord:1,ejec:0.8,amparo:1.2,lab:1,fam:0.9,merc:1.1};
+  var insMult={1:1,2:1.5,am:2};
+  honMin*=mult[tip]*insMult[ins]; honMax*=mult[tip]*insMult[ins];
+  var totMin=honMin+proc, totMax=honMax+proc;
+  document.getElementById('csRes').style.display='block';
+  document.getElementById('csOut').textContent='CÁLCULO DE COSTAS Y HONORARIOS\n'+'-'.repeat(50)+'\nCuantía: $'+cuan.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nJuicio: '+tip+' | Instancia: '+ins+'\nBaremo: '+min+'%-'+max+'%\n\nHonorarios mínimos:      $'+honMin.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nHonorarios máximos:      $'+honMax.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nCostas procesales:       $'+proc.toLocaleString('es-MX',{minimumFractionDigits:2})+'\n'+'-'.repeat(50)+'\nTOTAL MÍNIMO:            $'+totMin.toLocaleString('es-MX',{minimumFractionDigits:2})+'\nTOTAL MÁXIMO:            $'+totMax.toLocaleString('es-MX',{minimumFractionDigits:2})+'\n\nFundamento: Arts. 1107-1109 CPCM Edo. Méx.\n* Juez fija discrecionalmente\n* Baremo Colegio de Abogados aplicable';
+}
+function usarModeloRapido(){
+  var gk=geminiKey||document.getElementById('geminikey').value.trim();
+  if(gk){
+    model='gemini-2.5-flash-lite';provider='gemini';
+    document.querySelectorAll('.mbtn').forEach(function(b){b.classList.remove('on');});
+    var gb=document.querySelector('[data-m="gemini-2.5-flash-lite"]');if(gb)gb.classList.add('on');
+    alert('Cambiado a Gemini 2.5 Flash-Lite\nEl modelo Gemini con mayor limite gratuito: 15 solicitudes/min, 1,000/dia.\n\nAhora intenta analizar de nuevo.');
+  } else {
+    model='llama-3.1-8b-instant';provider='groq';
+    document.querySelectorAll('.mbtn').forEach(function(b){b.classList.remove('on');});
+    var lb=document.querySelector('[data-m="llama-3.1-8b-instant"]');if(lb)lb.classList.add('on');
+    alert('Cambiado a Llama 3.1 8B (Groq)\nLimite: 20,000 tokens/min.\n\nTip: Si configuras tu Gemini API Key, podras usar Gemini 2.0 Flash sin limites estrictos de tokens.\n\nAhora intenta analizar de nuevo.');
+  }
+}
+document.addEventListener('DOMContentLoaded',async function(){
+  try{
+    renderW();
+    await cargarEstiloDB();
+    await cargarLeyesActualizadas();
+    await loadGoogleSearchKeys();
+    var hoy=new Date().toISOString().slice(0,10);
+    ['p_ini','i_i','i_f'].forEach(function(id){var e=document.getElementById(id);if(e)e.value=hoy;});
+    var now=new Date().toISOString().slice(0,16);var pe=document.getElementById('pe_i');if(pe)pe.value=now;
+    var savedKey=await lsGet('jur_apikey', true, '');
+    if(savedKey){var el=document.getElementById('apikey');if(el){el.value=savedKey;apiKey=savedKey;}}
+    var savedGKey=await lsGet('jur_geminikey', true, '');
+    if(savedGKey){var gel=document.getElementById('geminikey');if(gel){gel.value=savedGKey;geminiKey=savedGKey;}}
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').catch(function(e){console.log('SW registro falló:',e);});
+    }
+  }catch(e){ console.error('Error en inicio:',e); }
+});
+
+// AUDIT LOG (CORREGIDO, SIN SOBREESCRIBIR window.groq)
+var AUDIT_LOG_KEY = 'juridico_audit_v19';
+async function auditLog(entry){
+  try{
+    var logs = await lsGet(AUDIT_LOG_KEY, true, []);
+    logs.unshift({ts:Date.now(),...entry});
+    if(logs.length>200) logs.pop();
+    await lsSet(AUDIT_LOG_KEY, logs, true);
+  }catch(e){console.warn('Audit log falló:',e);}
+}
+async function getAuditLogs(){
+  return await lsGet(AUDIT_LOG_KEY, true, []);
+}
+function estimateTokens(text){
+  return Math.ceil((text||'').length / 3.5);
+}
+function estimateCost(model, inputTokens, outputTokens){
+  var rates = {
+    'llama-3.3-70b-versatile': {in:0, out:0},
+    'llama-3.1-8b-instant': {in:0, out:0},
+    'meta-llama/llama-4-scout-17b-16e-instruct': {in:0, out:0},
+    'gemini-2.5-flash': {in:0.000075, out:0.0003},
+    'gemini-2.5-pro': {in:0.00125, out:0.005},
+    'gemini-2.5-flash-lite': {in:0.0000375, out:0.00015},
+  };
+  var r = rates[model] || {in:0, out:0};
+  return (inputTokens/1000000)*r.in + (outputTokens/1000000)*r.out;
+}
+async function verAuditLog(){
+  var logs = await getAuditLogs();
+  var el = document.getElementById('auditLogView');
+  if(!logs.length){el.innerHTML='<div class="sb sb-i">No hay registros de auditoría.</div>';el.style.display='block';return;}
+  var totalCost = logs.filter(l=>l.success).reduce(function(s,l){return s+(l.estimatedCostUSD||0);},0);
+  var totalTokens = logs.filter(l=>l.success).reduce(function(s,l){return s+(l.inputTokens||0)+(l.outputTokens||0);},0);
+  el.innerHTML = '<div style="font-size:12px;margin-bottom:8px"><b>Total requests:</b> '+logs.length+' | <b>Exitosos:</b> '+logs.filter(l=>l.success).length+' | <b>Tokens:</b> '+totalTokens.toLocaleString()+' | <b>Costo est.:</b> $'+totalCost.toFixed(6)+' USD</div>' + logs.slice(0,50).map(function(l){
+    var d = new Date(l.ts).toLocaleString('es-MX');
+    var status = l.success?'✅':'❌';
+    var cost = l.estimatedCostUSD?('$'+l.estimatedCostUSD.toFixed(6)):'-';
+    return '<div class="sb '+(l.success?'sb-s':'sb-e')+'" style="font-size:11px;padding:6px 8px">'+status+' <b>'+l.model+'</b> ('+l.provider+') | '+d+' | In: '+(l.inputTokens||0)+' Out: '+(l.outputTokens||0)+' | '+cost+' | '+(l.durationMs||0)+'ms'+(l.error?' | Err: '+l.error:'')+'</div>';
+  }).join('');
+  el.style.display='block';
+}
+async function exportAuditLog(){
+  var logs = await getAuditLogs();
+  if(!logs.length){alert('No hay datos para exportar');return;}
+  var csv = 'timestamp,model,provider,success,inputTokens,outputTokens,costUSD,durationMs,error\n' + logs.map(function(l){
+    return [new Date(l.ts).toISOString(),l.model,l.provider,l.success,l.inputTokens||0,l.outputTokens||0,l.estimatedCostUSD||0,l.durationMs||0,(l.error||'').replace(/"/g,'""')].join(',');
+  }).join('\n');
+  var blob = new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+  saveAs(blob,'auditoria_juridico_'+new Date().toISOString().slice(0,10)+'.csv');
+}
+async function limpiarAuditLog(){
+  if(!confirm('Borrar todo el log de auditoría?'))return;
+  await lsRemove('juridico_audit_v19');
+  document.getElementById('auditLogView').style.display='none';
+  alert('Log limpiado');
+}
+</script>
+</body>
+</html>
